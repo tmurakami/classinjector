@@ -48,14 +48,14 @@ ClassInjector.from(new ClassSource() {
 
 ## Installation
 
-Add the [JitPack](https://jitpack.io/) repository to your build.gradle.
+First, add the [JitPack](https://jitpack.io/) repository to your build.gradle.
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
 ```
 
-Then, for Java (6 or later):
+And then, for Java (6 or later):
 ```groovy
 dependencies {
     compile 'com.github.tmurakami.classinjector:classinjector:x.y.z'
