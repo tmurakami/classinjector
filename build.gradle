@@ -1,0 +1,28 @@
+plugins {
+    id 'com.github.ben-manes.versions' version '0.13.0'
+}
+
+apply from: "$rootDir/gradle/version.gradle"
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    group = 'com.github.tmurakami.classinjector'
+    version = version_name
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    deps = [
+            classinjector: project(':classinjector'),
+            junit        : 'junit:junit:4.12',
+            mockito      : 'org.mockito:mockito-core:2.6.3',
+    ]
+}
