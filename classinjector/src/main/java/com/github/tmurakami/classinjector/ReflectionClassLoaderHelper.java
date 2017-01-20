@@ -7,12 +7,19 @@ import java.security.ProtectionDomain;
 
 final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
-    private Field parentField;
-    private Method getPackageMethod;
-    private Method definePackageMethod;
-    private Method defineClassMethod;
+    private final Field parentField;
+    private final Method defineClassMethod;
+    private final Method definePackageMethod;
+    private final Method getPackageMethod;
 
-    private ReflectionClassLoaderHelper() {
+    private ReflectionClassLoaderHelper(Field parentField,
+                                        Method defineClassMethod,
+                                        Method definePackageMethod,
+                                        Method getPackageMethod) {
+        this.parentField = parentField;
+        this.defineClassMethod = defineClassMethod;
+        this.definePackageMethod = definePackageMethod;
+        this.getPackageMethod = getPackageMethod;
     }
 
     @Override
@@ -68,29 +75,28 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
     static ReflectionClassLoaderHelper create(Field parentField) {
         Class<?> c = ClassLoader.class;
-        ReflectionClassLoaderHelper o = new ReflectionClassLoaderHelper();
-        o.parentField = parentField;
-        o.defineClassMethod = ReflectionUtils.getDeclaredMethod(
-                c,
-                "defineClass",
-                String.class,
-                byte[].class,
-                int.class,
-                int.class,
-                ProtectionDomain.class);
-        o.definePackageMethod = ReflectionUtils.getDeclaredMethod(
-                c,
-                "definePackage",
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                URL.class);
-        o.getPackageMethod = ReflectionUtils.getDeclaredMethod(c, "getPackage", String.class);
-        return o;
+        return new ReflectionClassLoaderHelper(
+                parentField,
+                ReflectionUtils.getDeclaredMethod(
+                        c,
+                        "defineClass",
+                        String.class,
+                        byte[].class,
+                        int.class,
+                        int.class,
+                        ProtectionDomain.class),
+                ReflectionUtils.getDeclaredMethod(
+                        c,
+                        "definePackage",
+                        String.class,
+                        String.class,
+                        String.class,
+                        String.class,
+                        String.class,
+                        String.class,
+                        String.class,
+                        URL.class),
+                ReflectionUtils.getDeclaredMethod(c, "getPackage", String.class));
     }
 
 }
