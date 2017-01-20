@@ -53,7 +53,7 @@ repositories {
 }
 ```
 
-And then, for Java (6 or later):
+And then, for Java (7 or later):
 ```groovy
 dependencies {
     compile 'com.github.tmurakami.classinjector:classinjector:x.y.z'

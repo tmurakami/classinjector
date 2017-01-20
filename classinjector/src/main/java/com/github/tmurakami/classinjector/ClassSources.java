@@ -20,7 +20,7 @@ public final class ClassSources implements ClassSource {
         if (sources == null) {
             throw new IllegalArgumentException("'sources' is null");
         }
-        List<ClassSource> list = new ArrayList<ClassSource>();
+        List<ClassSource> list = new ArrayList<>();
         for (ClassSource s : sources) {
             if (s == null) {
                 throw new IllegalArgumentException("'sources' contains null");

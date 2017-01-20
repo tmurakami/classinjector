@@ -11,7 +11,7 @@ final class StealthClassLoader extends ClassLoader {
 
     private final ClassSource source;
     private final ClassLoader injectionTarget;
-    private final Set<String> findingClasses = new HashSet<String>();
+    private final Set<String> findingClasses = new HashSet<>();
 
     @SuppressWarnings("WeakerAccess")
     StealthClassLoader(ClassLoader parent, ClassSource source, ClassLoader injectionTarget) {
