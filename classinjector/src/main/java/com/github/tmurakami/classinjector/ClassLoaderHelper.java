@@ -1,7 +1,7 @@
 package com.github.tmurakami.classinjector;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.net.URL;
 import java.security.ProtectionDomain;
 
 abstract class ClassLoaderHelper {
@@ -18,27 +18,35 @@ abstract class ClassLoaderHelper {
                                int len,
                                ProtectionDomain protectionDomain) throws ClassFormatError;
 
+    abstract Package definePackage(ClassLoader classLoader,
+                                   String name,
+                                   String specTitle,
+                                   String specVersion,
+                                   String specVendor,
+                                   String implTitle,
+                                   String implVersion,
+                                   String implVendor,
+                                   URL sealBase) throws IllegalArgumentException;
+
+    abstract Package getPackage(ClassLoader classLoader, String name);
+
     abstract void setParent(ClassLoader classLoader, ClassLoader parent);
 
+    final ClassLoader getParent(final ClassLoader classLoader) {
+        return classLoader.getParent();
+    }
+
     private static ClassLoaderHelper newInstance() {
-        Class<?> c = ClassLoader.class;
-        Field parentField = ReflectionUtils.getDeclaredField(c, "parent");
+        Field parentField = ReflectionUtils.getDeclaredField(ClassLoader.class, "parent");
         try {
             parentField.setAccessible(true);
-            Method defineClassMethod = ReflectionUtils.getDeclaredMethod(
-                    c,
-                    "defineClass",
-                    String.class,
-                    byte[].class,
-                    int.class,
-                    int.class,
-                    ProtectionDomain.class);
-            return new ReflectionClassLoaderHelper(parentField, defineClassMethod);
+            return ReflectionClassLoaderHelper.create(parentField);
         } catch (RuntimeException e) {
             if ("java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
-                return new UnsafeClassLoaderHelper(parentField, Unsafe.getUnsafe());
+                return UnsafeClassLoaderHelper.create(parentField);
+            } else {
+                throw e;
             }
-            throw e;
         }
     }
 

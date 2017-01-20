@@ -1,42 +1,29 @@
 package com.github.tmurakami.classinjector.android;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.test.InstrumentationRegistry;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import dalvik.system.DexFile;
 
-@SuppressWarnings("deprecation")
-public class DexClassFileTest extends android.test.AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-    private List<File> files;
-    private File outputFile;
+public class DexClassFileTest {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        File cacheDir = getContext().getDir("dex_cache", Context.MODE_PRIVATE);
-        File outputFile = new File(cacheDir, "classes.dex");
-        files = Arrays.asList(outputFile, cacheDir);
-        this.outputFile = outputFile;
-    }
+    private final Context context = InstrumentationRegistry.getTargetContext();
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        for (File f : files) {
-            if (f.exists() && !f.delete()) {
-                Log.w(getName(), "Cannot delete " + f);
-            }
-        }
-    }
+    @Rule
+    public final TemporaryFolder folder = new TemporaryFolder(context.getDir("dex_cache", Context.MODE_PRIVATE));
 
-    public void testToClass() throws Exception {
-        String sourcePathName = getContext().getApplicationInfo().sourceDir;
-        DexFile dexFile = DexFile.loadDex(sourcePathName, outputFile.getCanonicalPath(), 0);
+    @Test
+    public void toClass() throws Exception {
+        String sourcePathName = context.getApplicationInfo().sourceDir;
+        String outputPathName = folder.newFile().getCanonicalPath();
+        DexFile dexFile = DexFile.loadDex(sourcePathName, outputPathName, 0);
         ClassLoader classLoader = new ClassLoader() {
         };
         Class<?> c = new DexClassFile(C.class.getName(), dexFile).toClass(classLoader);

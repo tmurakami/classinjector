@@ -8,19 +8,12 @@ final class Unsafe {
 
     private static final Unsafe UNSAFE = newUnsafe();
 
-    private final Object unsafe;
-    private final Method defineClassMethod;
-    private final Method objectFieldOffsetMethod;
-    private final Method putObjectMethod;
+    private Object unsafe;
+    private Method defineClassMethod;
+    private Method objectFieldOffsetMethod;
+    private Method putObjectMethod;
 
-    private Unsafe(Object unsafe,
-                   Method defineClassMethod,
-                   Method objectFieldOffsetMethod,
-                   Method putObjectMethod) {
-        this.unsafe = unsafe;
-        this.defineClassMethod = defineClassMethod;
-        this.objectFieldOffsetMethod = objectFieldOffsetMethod;
-        this.putObjectMethod = putObjectMethod;
+    private Unsafe() {
     }
 
     Class defineClass(String name,
@@ -53,21 +46,22 @@ final class Unsafe {
         } catch (ClassNotFoundException e) {
             throw new NoClassDefFoundError(name);
         }
+        Unsafe o = new Unsafe();
         Field f = ReflectionUtils.getDeclaredField(c, "theUnsafe");
         f.setAccessible(true);
-        return new Unsafe(
-                ReflectionUtils.get(f, null),
-                ReflectionUtils.getMethod(
-                        c,
-                        "defineClass",
-                        String.class,
-                        byte[].class,
-                        int.class,
-                        int.class,
-                        ClassLoader.class,
-                        ProtectionDomain.class),
-                ReflectionUtils.getMethod(c, "objectFieldOffset", Field.class),
-                ReflectionUtils.getMethod(c, "putObject", Object.class, long.class, Object.class));
+        o.unsafe = ReflectionUtils.get(f, null);
+        o.defineClassMethod = ReflectionUtils.getMethod(
+                c,
+                "defineClass",
+                String.class,
+                byte[].class,
+                int.class,
+                int.class,
+                ClassLoader.class,
+                ProtectionDomain.class);
+        o.objectFieldOffsetMethod = ReflectionUtils.getMethod(c, "objectFieldOffset", Field.class);
+        o.putObjectMethod = ReflectionUtils.getMethod(c, "putObject", Object.class, long.class, Object.class);
+        return o;
     }
 
 }

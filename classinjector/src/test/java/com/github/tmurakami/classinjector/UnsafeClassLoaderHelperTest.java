@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.Field;
+import java.security.ProtectionDomain;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
@@ -23,6 +24,8 @@ public class UnsafeClassLoaderHelperTest {
     ClassLoader classLoader;
     @Mock
     ClassLoader parent;
+    @Mock
+    ProtectionDomain protectionDomain;
 
     @InjectMocks
     UnsafeClassLoaderHelper testTarget;
@@ -31,8 +34,8 @@ public class UnsafeClassLoaderHelperTest {
     public void defineClass() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
-        given(unsafe.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, null)).willReturn(c);
-        assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, null));
+        given(unsafe.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
+        assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain));
     }
 
     @Test

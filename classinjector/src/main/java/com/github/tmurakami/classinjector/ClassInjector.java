@@ -11,14 +11,15 @@ public abstract class ClassInjector {
     /**
      * Inject classes into the given class loader.
      *
-     * @param target The {@link ClassLoader} to be injected with classes.
+     * @param target The {@link ClassLoader} with a non-null parent loader. Generally, specify the
+     *               caller's class loader.
      */
     public abstract void into(ClassLoader target);
 
     /**
      * Create an instance of {@link ClassInjector}.
      *
-     * @param source The input source of data that make up a class
+     * @param source The input source of data that make up classes.
      * @return The {@link ClassInjector} object for injecting classes constructed with the
      * specified source into a class loader.
      */

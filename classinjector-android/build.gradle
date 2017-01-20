@@ -16,6 +16,7 @@ android {
     buildToolsVersion '25.0.2'
     defaultConfig {
         minSdkVersion 9
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
@@ -28,6 +29,7 @@ dependencies {
     compile deps.classinjector
     testCompile deps.junit
     testCompile deps.mockito
+    androidTestCompile deps.rules
 }
 
 task sourcesJar(type: Jar) {

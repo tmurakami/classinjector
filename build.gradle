@@ -23,6 +23,7 @@ ext {
     deps = [
             classinjector: project(':classinjector'),
             junit        : 'junit:junit:4.12',
-            mockito      : 'org.mockito:mockito-core:2.6.3',
+            mockito      : 'org.mockito:mockito-core:2.6.4',
+            rules        : 'com.android.support.test:rules:0.5',
     ]
 }

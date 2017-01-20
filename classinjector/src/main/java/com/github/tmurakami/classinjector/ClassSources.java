@@ -14,7 +14,7 @@ public final class ClassSources implements ClassSource {
     /**
      * Create an instance.
      *
-     * @param sources The list of non-null {@link ClassSource} objects
+     * @param sources The collection of non-null {@link ClassSource} objects.
      */
     public ClassSources(Iterable<? extends ClassSource> sources) {
         if (sources == null) {
@@ -32,6 +32,12 @@ public final class ClassSources implements ClassSource {
 
     @Override
     public ClassFile getClassFile(String className) throws IOException {
+        if (className == null) {
+            throw new IllegalArgumentException("'className' is null");
+        }
+        if (className.isEmpty()) {
+            throw new IllegalArgumentException("'className' is empty string");
+        }
         for (ClassSource b : sources) {
             ClassFile f = b.getClassFile(className);
             if (f != null) {

@@ -35,6 +35,16 @@ public class ClassSourcesTest {
         assertSame(classFile, new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void getClassFile_nullClassName() throws Exception {
+        new ClassSources(Collections.singleton(source)).getClassFile(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getClassFile_emptyClassName() throws Exception {
+        new ClassSources(Collections.singleton(source)).getClassFile("");
+    }
+
     @Test
     public void getClassFile_classNotFound() throws Exception {
         assertNull(new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));

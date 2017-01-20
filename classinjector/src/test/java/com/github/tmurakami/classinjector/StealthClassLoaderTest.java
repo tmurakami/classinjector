@@ -1,10 +1,12 @@
 package com.github.tmurakami.classinjector;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import java.io.IOError;
 import java.io.IOException;
@@ -16,6 +18,10 @@ import static org.mockito.BDDMockito.then;
 @RunWith(MockitoJUnitRunner.class)
 public class StealthClassLoaderTest {
 
+    private StealthClassLoader testTarget;
+
+    @Mock
+    ClassLoader parent;
     @Mock
     ClassSource source;
     @Mock
@@ -23,8 +29,10 @@ public class StealthClassLoaderTest {
     @Mock
     ClassFile classFile;
 
-    @InjectMocks
-    StealthClassLoader testTarget;
+    @Before
+    public void setUp() throws Exception {
+        testTarget = new StealthClassLoader(parent, source, injectionTarget);
+    }
 
     @Test
     public void findClass() throws Exception {
@@ -32,6 +40,19 @@ public class StealthClassLoaderTest {
         Class<?> c = getClass();
         given(classFile.toClass(injectionTarget)).willReturn(c);
         assertSame(c, testTarget.findClass("foo.Bar"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void findClass_recursivelyCall() throws Exception {
+        given(source.getClassFile("foo.Bar")).willReturn(classFile);
+        given(classFile.toClass(injectionTarget)).will(new Answer<Class<?>>() {
+            @Override
+            public Class<?> answer(InvocationOnMock invocation) throws Throwable {
+                testTarget.findClass("foo.Bar");
+                return null;
+            }
+        });
+        testTarget.findClass("foo.Bar");
     }
 
     @Test(expected = ClassNotFoundException.class)

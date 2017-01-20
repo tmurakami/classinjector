@@ -8,7 +8,6 @@ A library that provides the ability to inject classes into a class loader at run
 ## Example
 
 ```java
-ClassLoader injectionTarget = ...
 ClassInjector.from(new ClassSource() {
     @Override
     public ClassFile getClassFile(String className) throws IOException {
@@ -18,12 +17,13 @@ ClassInjector.from(new ClassSource() {
         // If no bytecode was found, return null.
         return bytecode == null ? null : new JvmClassFile(className, bytecode);
     }
-}).into(injectionTarget);
+}).into(getClass().getClassLoader());
 ```
 
 For Android, use DexClassFile instead of JvmClassFile.
 ```java
-ClassLoader injectionTarget = ...
+// Get a Context object.
+final Context context = ...
 ClassInjector.from(new ClassSource() {
     @Override
     public ClassFile getClassFile(String className) throws IOException {
@@ -33,8 +33,6 @@ ClassInjector.from(new ClassSource() {
         if (sourcePath == null) {
             return null;
         }
-        // Get a Context object.
-        Context context = ...
         // Construct the path for the optimized dex data.
         File cacheDir = context.getDir("dex_cache", Context.MODE_PRIVATE);
         String optimizedPath = new File(cacheDir, "classes.dex").getCanonicalPath();
@@ -43,7 +41,7 @@ ClassInjector.from(new ClassSource() {
         // Return the ClassFile object with the given class name and its dex file.
         return new DexClassFile(className, dexFile);
     }
-}).into(injectionTarget);
+}).into(context.getClassLoader());
 ```
 
 ## Installation

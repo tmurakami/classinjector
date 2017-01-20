@@ -7,8 +7,10 @@ final class ClassLoaderFactory {
     private ClassLoaderFactory() {
     }
 
-    ClassLoader newClassLoader(ClassSource source, ClassLoader injectionTarget) {
-        return new StealthClassLoader(source, injectionTarget);
+    ClassLoader newClassLoader(final ClassLoader parent,
+                               final ClassSource source,
+                               final ClassLoader injectionTarget) {
+        return new StealthClassLoader(parent, source, injectionTarget);
     }
 
 }

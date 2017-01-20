@@ -12,6 +12,9 @@ import static org.mockito.BDDMockito.then;
 @RunWith(MockitoJUnitRunner.class)
 public class ClassInjectorImplTest {
 
+    @InjectMocks
+    ClassInjectorImpl testTarget;
+
     @Mock
     ClassSource source;
     @Mock
@@ -19,18 +22,18 @@ public class ClassInjectorImplTest {
     @Mock
     ClassLoaderHelper classLoaderHelper;
     @Mock
-    ClassLoader injectionTarget;
+    ClassLoader target;
+    @Mock
+    ClassLoader parent;
     @Mock
     StealthClassLoader stealthClassLoader;
 
-    @InjectMocks
-    ClassInjectorImpl testTarget;
-
     @Test
     public void into() throws Exception {
-        given(classLoaderFactory.newClassLoader(source, injectionTarget)).willReturn(stealthClassLoader);
-        testTarget.into(injectionTarget);
-        then(classLoaderHelper).should().setParent(injectionTarget, stealthClassLoader);
+        given(classLoaderHelper.getParent(target)).willReturn(parent);
+        given(classLoaderFactory.newClassLoader(parent, source, target)).willReturn(stealthClassLoader);
+        testTarget.into(target);
+        then(classLoaderHelper).should().setParent(target, stealthClassLoader);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -40,8 +43,8 @@ public class ClassInjectorImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void into_alreadyInjected() throws Exception {
-        given(injectionTarget.getParent()).willReturn(stealthClassLoader);
-        testTarget.into(injectionTarget);
+        given(classLoaderHelper.getParent(target)).willReturn(stealthClassLoader);
+        testTarget.into(target);
     }
 
 }
