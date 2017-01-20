@@ -3,11 +3,12 @@ machine:
     ADB_INSTALL_TIMEOUT: 100
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
   java:
-    version: oraclejdk8
+    version: openjdk8
 dependencies:
   pre:
     - mkdir $ANDROID_HOME/licenses
     - echo $ANDROID_SDK_LICENSE > $ANDROID_HOME/licenses/android-sdk-license
+    - echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"
 test:
   pre:
     - emulator -avd circleci-android22 -no-audio -no-window:
