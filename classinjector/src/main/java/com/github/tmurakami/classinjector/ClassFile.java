@@ -1,15 +1,15 @@
 package com.github.tmurakami.classinjector;
 
 /**
- * An object representing data making up a class.
+ * The class file is an object representing data making up a class.
  */
 public interface ClassFile {
 
     /**
-     * Create an instance of {@link Class} with the given class loader.
+     * Instantiates a new {@link Class} instance.
      *
-     * @param classLoader The {@link ClassLoader} to use for creating a class.
-     * @return The {@link Class} object that was created from this file.
+     * @param classLoader the class loader to use for creating a class
+     * @return the class object that was created from this file
      */
     Class toClass(ClassLoader classLoader);
 

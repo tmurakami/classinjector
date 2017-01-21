@@ -12,6 +12,7 @@ final class Unsafe {
     private Method defineClassMethod;
     private Method objectFieldOffsetMethod;
     private Method putObjectMethod;
+    private ReflectionHelper reflectionHelper;
 
     private Unsafe() {
     }
@@ -22,16 +23,16 @@ final class Unsafe {
                       int len,
                       ClassLoader loader,
                       ProtectionDomain protectionDomain) {
-        return (Class) ReflectionUtils.invoke(
+        return (Class) reflectionHelper.invoke(
                 defineClassMethod, unsafe, name, b, off, len, loader, protectionDomain);
     }
 
     long objectFieldOffset(Field f) {
-        return (Long) ReflectionUtils.invoke(objectFieldOffsetMethod, unsafe, f);
+        return (Long) reflectionHelper.invoke(objectFieldOffsetMethod, unsafe, f);
     }
 
     void putObject(Object o, long offset, Object x) {
-        ReflectionUtils.invoke(putObjectMethod, unsafe, o, offset, x);
+        reflectionHelper.invoke(putObjectMethod, unsafe, o, offset, x);
     }
 
     static Unsafe getUnsafe() {
@@ -47,10 +48,11 @@ final class Unsafe {
             throw new NoClassDefFoundError(name);
         }
         Unsafe o = new Unsafe();
-        Field f = ReflectionUtils.getDeclaredField(c, "theUnsafe");
-        f.setAccessible(true);
-        o.unsafe = ReflectionUtils.get(f, null);
-        o.defineClassMethod = ReflectionUtils.getMethod(
+        ReflectionHelper h = ReflectionHelper.INSTANCE;
+        Field f = h.getDeclaredField(c, "theUnsafe");
+        h.setAccessible(f, true);
+        o.unsafe = h.get(f, null);
+        o.defineClassMethod = h.getMethod(
                 c,
                 "defineClass",
                 String.class,
@@ -59,8 +61,10 @@ final class Unsafe {
                 int.class,
                 ClassLoader.class,
                 ProtectionDomain.class);
-        o.objectFieldOffsetMethod = ReflectionUtils.getMethod(c, "objectFieldOffset", Field.class);
-        o.putObjectMethod = ReflectionUtils.getMethod(c, "putObject", Object.class, long.class, Object.class);
+        o.objectFieldOffsetMethod = h.getMethod(c, "objectFieldOffset", Field.class);
+        o.putObjectMethod = h.getMethod(
+                c, "putObject", Object.class, long.class, Object.class);
+        o.reflectionHelper = h;
         return o;
     }
 

@@ -35,25 +35,29 @@ abstract class ClassLoaderHelper {
     abstract void setParent(ClassLoader classLoader, ClassLoader parent);
 
     final ClassLoader getParent(final ClassLoader classLoader) {
-        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-            @Override
-            public ClassLoader run() {
-                return classLoader.getParent();
-            }
-        });
+        if (System.getSecurityManager() == null) {
+            return classLoader.getParent();
+        } else {
+            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                @Override
+                public ClassLoader run() {
+                    return classLoader.getParent();
+                }
+            });
+        }
     }
 
     private static ClassLoaderHelper newInstance() {
-        Field parentField = ReflectionUtils.getDeclaredField(ClassLoader.class, "parent");
+        ReflectionHelper h = ReflectionHelper.INSTANCE;
+        Field parentField = h.getDeclaredField(ClassLoader.class, "parent");
         try {
-            parentField.setAccessible(true);
+            h.setAccessible(parentField, true);
             return ReflectionClassLoaderHelper.create(parentField);
         } catch (RuntimeException e) {
-            if ("java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
-                return UnsafeClassLoaderHelper.create(parentField);
-            } else {
+            if (!"java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
                 throw e;
             }
+            return new UnsafeClassLoaderHelper(parentField, Unsafe.getUnsafe());
         }
     }
 

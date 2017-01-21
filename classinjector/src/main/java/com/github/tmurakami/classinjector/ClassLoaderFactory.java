@@ -13,12 +13,16 @@ final class ClassLoaderFactory {
     ClassLoader newClassLoader(final ClassLoader parent,
                                final ClassSource source,
                                final ClassLoader injectionTarget) {
-        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-            @Override
-            public ClassLoader run() {
-                return new StealthClassLoader(parent, source, injectionTarget);
-            }
-        });
+        if (System.getSecurityManager() == null) {
+            return new StealthClassLoader(parent, source, injectionTarget);
+        } else {
+            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                @Override
+                public ClassLoader run() {
+                    return new StealthClassLoader(parent, source, injectionTarget);
+                }
+            });
+        }
     }
 
 }

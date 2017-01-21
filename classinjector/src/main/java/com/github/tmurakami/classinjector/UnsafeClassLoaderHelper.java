@@ -9,7 +9,7 @@ final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
     private final Field parentField;
     private final Unsafe unsafe;
 
-    private UnsafeClassLoaderHelper(Field parentField, Unsafe unsafe) {
+    UnsafeClassLoaderHelper(Field parentField, Unsafe unsafe) {
         this.parentField = parentField;
         this.unsafe = unsafe;
     }
@@ -46,10 +46,6 @@ final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
     void setParent(ClassLoader classLoader, ClassLoader parent) {
         Unsafe u = unsafe;
         u.putObject(classLoader, u.objectFieldOffset(parentField), parent);
-    }
-
-    static ClassLoaderHelper create(Field parentField) {
-        return new UnsafeClassLoaderHelper(parentField, Unsafe.getUnsafe());
     }
 
 }

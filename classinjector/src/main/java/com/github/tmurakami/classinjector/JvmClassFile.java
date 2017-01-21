@@ -1,8 +1,9 @@
 package com.github.tmurakami.classinjector;
 
 /**
- * A {@link ClassFile} for Java VM.
+ * This class file is for Java VM.
  */
+@SuppressWarnings("WeakerAccess")
 public final class JvmClassFile implements ClassFile {
 
     private final String className;
@@ -10,10 +11,10 @@ public final class JvmClassFile implements ClassFile {
     private final ClassLoaderHelper classLoaderHelper;
 
     /**
-     * Create an instance.
+     * Instantiates a new instance.
      *
-     * @param className The class name.
-     * @param bytecode  The byte array that make up the class.
+     * @param className the class name
+     * @param bytecode  the byte array that make up the class
      */
     public JvmClassFile(String className, byte[] bytecode) {
         this(className, bytecode, ClassLoaderHelper.INSTANCE);

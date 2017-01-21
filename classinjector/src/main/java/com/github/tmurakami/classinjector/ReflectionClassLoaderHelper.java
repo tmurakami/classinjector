@@ -7,19 +7,13 @@ import java.security.ProtectionDomain;
 
 final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
-    private final Field parentField;
-    private final Method defineClassMethod;
-    private final Method definePackageMethod;
-    private final Method getPackageMethod;
+    private Field parentField;
+    private Method defineClassMethod;
+    private Method definePackageMethod;
+    private Method getPackageMethod;
+    private ReflectionHelper reflectionHelper;
 
-    private ReflectionClassLoaderHelper(Field parentField,
-                                        Method defineClassMethod,
-                                        Method definePackageMethod,
-                                        Method getPackageMethod) {
-        this.parentField = parentField;
-        this.defineClassMethod = defineClassMethod;
-        this.definePackageMethod = definePackageMethod;
-        this.getPackageMethod = getPackageMethod;
+    private ReflectionClassLoaderHelper() {
     }
 
     @Override
@@ -29,9 +23,10 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                       int off,
                       int len,
                       ProtectionDomain protectionDomain) throws ClassFormatError {
+        ReflectionHelper h = reflectionHelper;
         Method m = defineClassMethod;
-        m.setAccessible(true);
-        return (Class) ReflectionUtils.invoke(m, classLoader, name, b, off, len, protectionDomain);
+        h.setAccessible(m, true);
+        return (Class) h.invoke(m, classLoader, name, b, off, len, protectionDomain);
     }
 
     @Override
@@ -44,10 +39,10 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                           String implVersion,
                           String implVendor,
                           URL sealBase) throws IllegalArgumentException {
+        ReflectionHelper h = reflectionHelper;
         Method m = definePackageMethod;
-        m.setAccessible(true);
-        return (Package) ReflectionUtils.invoke(
-                m,
+        h.setAccessible(m, true);
+        return (Package) h.invoke(m,
                 classLoader,
                 name,
                 specTitle,
@@ -61,42 +56,47 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
     @Override
     Package getPackage(ClassLoader classLoader, String name) {
+        ReflectionHelper h = reflectionHelper;
         Method m = getPackageMethod;
-        m.setAccessible(true);
-        return (Package) ReflectionUtils.invoke(m, classLoader, name);
+        h.setAccessible(m, true);
+        return (Package) h.invoke(m, classLoader, name);
     }
 
     @Override
     void setParent(ClassLoader classLoader, ClassLoader parent) {
-        Field f = this.parentField;
-        f.setAccessible(true);
-        ReflectionUtils.set(f, classLoader, parent);
+        ReflectionHelper helper = reflectionHelper;
+        Field f = parentField;
+        helper.setAccessible(f, true);
+        helper.set(f, classLoader, parent);
     }
 
     static ReflectionClassLoaderHelper create(Field parentField) {
         Class<?> c = ClassLoader.class;
-        return new ReflectionClassLoaderHelper(
-                parentField,
-                ReflectionUtils.getDeclaredMethod(
-                        c,
-                        "defineClass",
-                        String.class,
-                        byte[].class,
-                        int.class,
-                        int.class,
-                        ProtectionDomain.class),
-                ReflectionUtils.getDeclaredMethod(
-                        c,
-                        "definePackage",
-                        String.class,
-                        String.class,
-                        String.class,
-                        String.class,
-                        String.class,
-                        String.class,
-                        String.class,
-                        URL.class),
-                ReflectionUtils.getDeclaredMethod(c, "getPackage", String.class));
+        ReflectionClassLoaderHelper o = new ReflectionClassLoaderHelper();
+        o.parentField = parentField;
+        ReflectionHelper h = ReflectionHelper.INSTANCE;
+        o.defineClassMethod = h.getDeclaredMethod(
+                c,
+                "defineClass",
+                String.class,
+                byte[].class,
+                int.class,
+                int.class,
+                ProtectionDomain.class);
+        o.definePackageMethod = h.getDeclaredMethod(
+                c,
+                "definePackage",
+                String.class,
+                String.class,
+                String.class,
+                String.class,
+                String.class,
+                String.class,
+                String.class,
+                URL.class);
+        o.getPackageMethod = h.getDeclaredMethod(c, "getPackage", String.class);
+        o.reflectionHelper = h;
+        return o;
     }
 
 }

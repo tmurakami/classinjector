@@ -7,18 +7,19 @@ import java.util.Enumeration;
 import dalvik.system.DexFile;
 
 /**
- * A {@link ClassFile} for Android Dalvik/ART.
+ * This class file is for Android Dalvik/ART.
  */
+@SuppressWarnings("WeakerAccess")
 public final class DexClassFile implements ClassFile {
 
     private final String className;
     private final DexFile dexFile;
 
     /**
-     * Create an instance.
+     * Instantiates a new instance.
      *
-     * @param className The class name.
-     * @param dexFile   The dex file including the data for the given class name.
+     * @param className the class name
+     * @param dexFile   the dex file including the data for the given class name
      */
     public DexClassFile(String className, DexFile dexFile) {
         if (className == null) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An object representing a group of {@link ClassSource} objects.
+ * The Class sources is an object representing a group of {@link ClassSource} objects.
  */
 @SuppressWarnings("WeakerAccess")
 public final class ClassSources implements ClassSource {
@@ -13,9 +13,9 @@ public final class ClassSources implements ClassSource {
     private final List<ClassSource> sources;
 
     /**
-     * Create an instance.
+     * Instantiates a new instance.
      *
-     * @param sources The collection of non-null {@link ClassSource} objects.
+     * @param sources the collection of non-null {@link ClassSource} objects
      */
     public ClassSources(Iterable<? extends ClassSource> sources) {
         if (sources == null) {

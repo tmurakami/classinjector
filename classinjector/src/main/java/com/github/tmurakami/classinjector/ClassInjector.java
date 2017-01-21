@@ -1,8 +1,9 @@
 package com.github.tmurakami.classinjector;
 
 /**
- * An object that injects classes into a class loader.
+ * The class injector is an object that injects classes into a class loader.
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ClassInjector {
 
     ClassInjector() {
@@ -11,17 +12,16 @@ public abstract class ClassInjector {
     /**
      * Inject classes into the given class loader.
      *
-     * @param target The {@link ClassLoader} with a non-null parent loader. Generally, specify the
-     *               caller's class loader.
+     * @param target the {@link ClassLoader} with a non-null parent loader
      */
     public abstract void into(ClassLoader target);
 
     /**
-     * Create an instance of {@link ClassInjector}.
+     * Instantiates a new instance.
      *
-     * @param source The input source of data that make up classes.
-     * @return The {@link ClassInjector} object for injecting classes constructed with the
-     * specified source into a class loader.
+     * @param source the source of data that make up classes
+     * @return the class injector for injecting classes constructed with the specified source into
+     * a class loader
      */
     public static ClassInjector from(ClassSource source) {
         if (source == null) {
