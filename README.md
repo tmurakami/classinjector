@@ -11,7 +11,7 @@ A library that provides the ability to inject classes into a class loader at run
 ClassInjector.from(new ClassSource() {
     @Override
     public ClassFile getClassFile(String className) throws IOException {
-        // Find bytecode from arbitrary sources.
+        // Find bytecode for the given class name from arbitrary sources.
         byte[] bytecode = ...
         // Return the ClassFile object with the given class name and its bytecode.
         // If no bytecode was found, return null.
@@ -36,7 +36,7 @@ ClassInjector.from(new ClassSource() {
         // Construct the path for the optimized dex data.
         File cacheDir = context.getDir("dex_cache", Context.MODE_PRIVATE);
         String optimizedPath = new File(cacheDir, "classes.dex").getCanonicalPath();
-        // Open a dex file.
+        // Open the dex file.
         DexFile dexFile = DexFile.loadDex(sourcePath, optimizedPath, 0);
         // Return the ClassFile object with the given class name and its dex file.
         return new DexClassFile(className, dexFile);

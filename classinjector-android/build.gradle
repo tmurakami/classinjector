@@ -41,7 +41,10 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     failOnError false
     source = android.sourceSets.main.java.sourceFiles
-    classpath += files(android.bootClasspath, configurations.compile)
+    classpath += files(configurations.compile)
+    doFirst {
+        classpath += files(android.bootClasspath)
+    }
     options.links 'https://developer.android.com/reference/'
 }
 
