@@ -5,7 +5,7 @@
 ![Java](https://img.shields.io/badge/Java-7%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-2.3%2B-blue.svg)
 
-A library that provides the ability to inject classes into a class loader at runtime.
+A library that provides the ability to inject classes into a class loader.
 
 ## Example
 
