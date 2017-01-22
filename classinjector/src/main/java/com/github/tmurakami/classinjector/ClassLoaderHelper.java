@@ -2,8 +2,6 @@ package com.github.tmurakami.classinjector;
 
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 
 abstract class ClassLoaderHelper {
@@ -34,17 +32,8 @@ abstract class ClassLoaderHelper {
 
     abstract void setParent(ClassLoader classLoader, ClassLoader parent);
 
-    final ClassLoader getParent(final ClassLoader classLoader) {
-        if (System.getSecurityManager() == null) {
-            return classLoader.getParent();
-        } else {
-            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                @Override
-                public ClassLoader run() {
-                    return classLoader.getParent();
-                }
-            });
-        }
+    final ClassLoader getParent(ClassLoader classLoader) {
+        return classLoader.getParent();
     }
 
     private static ClassLoaderHelper newInstance() {

@@ -4,10 +4,6 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 
 final class ReflectionHelper {
 
@@ -16,78 +12,27 @@ final class ReflectionHelper {
     private ReflectionHelper() {
     }
 
-    Field getDeclaredField(final Class<?> c, final String name) {
-        Throwable t;
+    Field getDeclaredField(Class<?> c, String name) {
         try {
-            if (System.getSecurityManager() == null) {
-                return c.getDeclaredField(name);
-            } else {
-                return AccessController.doPrivileged(new PrivilegedExceptionAction<Field>() {
-                    @Override
-                    public Field run() throws Exception {
-                        return c.getDeclaredField(name);
-                    }
-                });
-            }
+            return c.getDeclaredField(name);
         } catch (NoSuchFieldException e) {
-            t = e;
-        } catch (PrivilegedActionException e) {
-            t = e.getCause();
-        }
-        if (t instanceof NoSuchFieldException) {
-            throw new NoSuchFieldError(t.getMessage());
-        } else {
-            throw new IllegalStateException("Cannot get " + c.getName() + '#' + name, t);
+            throw new NoSuchFieldError(e.getMessage());
         }
     }
 
-    Method getDeclaredMethod(final Class<?> c, final String name, final Class<?>... parameterTypes) {
-        Throwable t;
+    Method getDeclaredMethod(Class<?> c, String name, Class<?>... parameterTypes) {
         try {
-            if (System.getSecurityManager() == null) {
-                return c.getDeclaredMethod(name, parameterTypes);
-            } else {
-                return AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-                    @Override
-                    public Method run() throws Exception {
-                        return c.getDeclaredMethod(name, parameterTypes);
-                    }
-                });
-            }
+            return c.getDeclaredMethod(name, parameterTypes);
         } catch (NoSuchMethodException e) {
-            t = e;
-        } catch (PrivilegedActionException e) {
-            t = e.getCause();
-        }
-        if (t instanceof NoSuchMethodException) {
-            throw new NoSuchMethodError(t.getMessage());
-        } else {
-            throw new IllegalStateException("Cannot get " + c.getName() + '#' + name, t);
+            throw new NoSuchMethodError(e.getMessage());
         }
     }
 
-    Method getMethod(final Class<?> c, final String name, final Class<?>... parameterTypes) {
-        Throwable t;
+    Method getMethod(Class<?> c, String name, Class<?>... parameterTypes) {
         try {
-            if (System.getSecurityManager() == null) {
-                return c.getDeclaredMethod(name, parameterTypes);
-            } else {
-                return AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-                    @Override
-                    public Method run() throws Exception {
-                        return c.getMethod(name, parameterTypes);
-                    }
-                });
-            }
+            return c.getDeclaredMethod(name, parameterTypes);
         } catch (NoSuchMethodException e) {
-            t = e;
-        } catch (PrivilegedActionException e) {
-            t = e.getCause();
-        }
-        if (t instanceof NoSuchMethodException) {
-            throw new NoSuchMethodError(t.getMessage());
-        } else {
-            throw new IllegalStateException("Cannot get " + c.getName() + '#' + name, t);
+            throw new NoSuchMethodError(e.getMessage());
         }
     }
 
@@ -125,18 +70,8 @@ final class ReflectionHelper {
         }
     }
 
-    void setAccessible(final AccessibleObject o, final boolean accessible) {
-        if (System.getSecurityManager() == null) {
-            o.setAccessible(accessible);
-        } else {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    o.setAccessible(accessible);
-                    return null;
-                }
-            });
-        }
+    void setAccessible(AccessibleObject o, boolean accessible) {
+        o.setAccessible(accessible);
     }
 
 }
