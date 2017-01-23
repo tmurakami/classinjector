@@ -6,7 +6,15 @@ import java.security.ProtectionDomain;
 
 abstract class ClassLoaderHelper {
 
-    static final ClassLoaderHelper INSTANCE = newInstance();
+    static final ClassLoaderHelper INSTANCE;
+
+    static {
+        try {
+            INSTANCE = newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("This Java version is not supported", e);
+        }
+    }
 
     ClassLoaderHelper() {
     }
@@ -32,21 +40,23 @@ abstract class ClassLoaderHelper {
 
     abstract void setParent(ClassLoader classLoader, ClassLoader parent);
 
-    final ClassLoader getParent(ClassLoader classLoader) {
-        return classLoader.getParent();
-    }
-
-    private static ClassLoaderHelper newInstance() {
-        ReflectionHelper h = ReflectionHelper.INSTANCE;
-        Field parentField = h.getDeclaredField(ClassLoader.class, "parent");
+    private static ClassLoaderHelper newInstance() throws Exception {
+        Field parentField = ClassLoader.class.getDeclaredField("parent");
         try {
-            h.setAccessible(parentField, true);
+            parentField.setAccessible(true);
             return ReflectionClassLoaderHelper.create(parentField);
         } catch (RuntimeException e) {
-            if (!"java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
-                throw e;
+            if ("java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
+                try {
+                    Class<?> c = Class.forName("sun.misc.Unsafe");
+                    Field f = c.getDeclaredField("theUnsafe");
+                    f.setAccessible(true);
+                    Object unsafe = f.get(null);
+                    return new UnsafeClassLoaderHelper(parentField, Unsafe.wrap(unsafe));
+                } catch (Throwable ignored) {
+                }
             }
-            return new UnsafeClassLoaderHelper(parentField, Unsafe.getUnsafe());
+            throw e;
         }
     }
 
