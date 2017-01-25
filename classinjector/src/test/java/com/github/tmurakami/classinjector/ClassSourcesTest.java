@@ -25,6 +25,11 @@ public class ClassSourcesTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void _new_emptySources() {
+        new ClassSources(Collections.<ClassSource>emptyList());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void _new_containsNullSource() {
         new ClassSources(Collections.<ClassSource>singleton(null));
     }

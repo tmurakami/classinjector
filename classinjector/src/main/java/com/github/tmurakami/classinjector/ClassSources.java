@@ -28,6 +28,9 @@ public final class ClassSources implements ClassSource {
             }
             list.add(s);
         }
+        if (list.isEmpty()) {
+            throw new IllegalArgumentException("'sources' is empty");
+        }
         this.sources = list;
     }
 
@@ -37,7 +40,7 @@ public final class ClassSources implements ClassSource {
             throw new IllegalArgumentException("'className' is null");
         }
         if (className.isEmpty()) {
-            throw new IllegalArgumentException("'className' is empty string");
+            throw new IllegalArgumentException("'className' is empty");
         }
         for (ClassSource b : sources) {
             ClassFile f = b.getClassFile(className);

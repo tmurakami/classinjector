@@ -26,7 +26,7 @@ public final class DexClassFile implements ClassFile {
             throw new IllegalArgumentException("'className' is null");
         }
         if (className.isEmpty()) {
-            throw new IllegalArgumentException("'className' is empty string");
+            throw new IllegalArgumentException("'className' is empty");
         }
         if (dexFile == null) {
             throw new IllegalArgumentException("'dexFile' is null");

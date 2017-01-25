@@ -8,6 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.security.ProtectionDomain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -19,28 +20,30 @@ import static org.mockito.Mockito.inOrder;
 public class JvmClassFileTest {
 
     @Mock
+    ProtectionDomain protectionDomain;
+    @Mock
     ClassLoaderHelper classLoaderHelper;
     @Mock
     ClassLoader classLoader;
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_nullName() throws Exception {
-        new JvmClassFile(null, new byte[0]);
+        new JvmClassFile(null, new byte[0], protectionDomain);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_emptyName() throws Exception {
-        new JvmClassFile("", new byte[0]);
+        new JvmClassFile("", new byte[0], protectionDomain);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_nullBytecode() throws Exception {
-        new JvmClassFile("foo.Bar", null);
+        new JvmClassFile("foo.Bar", null, protectionDomain);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_emptyBytecode() throws Exception {
-        new JvmClassFile("foo.Bar", new byte[0]);
+        new JvmClassFile("foo.Bar", new byte[0], protectionDomain);
     }
 
     @Test
@@ -63,12 +66,12 @@ public class JvmClassFileTest {
     public void toClass_useMock() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
-        given(classLoaderHelper.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, null)).willReturn(c);
-        assertSame(c, new JvmClassFile("foo.Bar", bytes, classLoaderHelper).toClass(classLoader));
+        given(classLoaderHelper.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
+        assertSame(c, new JvmClassFile("foo.Bar", bytes, protectionDomain, classLoaderHelper).toClass(classLoader));
         InOrder inOrder = inOrder(classLoaderHelper);
         then(classLoaderHelper).should(inOrder).getPackage(classLoader, "foo");
         then(classLoaderHelper).should(inOrder).definePackage(classLoader, "foo", null, null, null, null, null, null, null);
-        then(classLoaderHelper).should(inOrder).defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, null);
+        then(classLoaderHelper).should(inOrder).defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain);
     }
 
     @Test(expected = IllegalArgumentException.class)
