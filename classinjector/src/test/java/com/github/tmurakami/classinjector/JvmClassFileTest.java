@@ -28,22 +28,22 @@ public class JvmClassFileTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_nullName() throws Exception {
-        new JvmClassFile(null, new byte[0], protectionDomain);
+        new JvmClassFile(null, new byte[0]);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_emptyName() throws Exception {
-        new JvmClassFile("", new byte[0], protectionDomain);
+        new JvmClassFile("", new byte[0]);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_nullBytecode() throws Exception {
-        new JvmClassFile("foo.Bar", null, protectionDomain);
+        new JvmClassFile("foo.Bar", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void _new_emptyBytecode() throws Exception {
-        new JvmClassFile("foo.Bar", new byte[0], protectionDomain);
+        new JvmClassFile("foo.Bar", new byte[0]);
     }
 
     @Test

@@ -19,12 +19,13 @@ final class ClassInjectorImpl extends ClassInjector {
         if (target == null) {
             throw new IllegalArgumentException("'target' is null");
         }
-        ClassLoader parent = target.getParent();
+        ClassLoaderHelper h = classLoaderHelper;
+        ClassLoader parent = h.getParent(target);
         if (parent == null) {
             throw new IllegalArgumentException("The parent of 'target' is null");
         }
         boolean alreadyInjected = target instanceof StealthClassLoader;
-        for (ClassLoader l = parent; !alreadyInjected && l != null; l = l.getParent()) {
+        for (ClassLoader l = parent; !alreadyInjected && l != null; l = h.getParent(l)) {
             if (l instanceof StealthClassLoader) {
                 alreadyInjected = true;
             }
@@ -32,7 +33,7 @@ final class ClassInjectorImpl extends ClassInjector {
         if (alreadyInjected) {
             throw new IllegalArgumentException(target + " has already been injected");
         }
-        classLoaderHelper.setParent(target, classLoaderFactory.newClassLoader(parent, source, target));
+        h.setParent(target, classLoaderFactory.newClassLoader(parent, source, target));
     }
 
 }

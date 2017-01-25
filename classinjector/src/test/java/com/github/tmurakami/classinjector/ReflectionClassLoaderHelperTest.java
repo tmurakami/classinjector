@@ -29,6 +29,8 @@ public class ReflectionClassLoaderHelperTest {
     @Mock(name = "getPackageMethod")
     Method getPackageMethod;
     @Mock
+    ReflectionHelper reflectionHelper;
+    @Mock
     ClassLoader classLoader;
     @Mock
     ProtectionDomain protectionDomain;
@@ -46,37 +48,37 @@ public class ReflectionClassLoaderHelperTest {
     public void defineClass() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
-        given(defineClassMethod.invoke(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
+        given(reflectionHelper.invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
         assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain));
-        InOrder inOrder = inOrder(defineClassMethod);
-        then(defineClassMethod).should(inOrder).setAccessible(true);
-        then(defineClassMethod).should(inOrder).invoke(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain);
+        InOrder inOrder = inOrder(reflectionHelper);
+        then(reflectionHelper).should(inOrder).setAccessible(defineClassMethod, true);
+        then(reflectionHelper).should(inOrder).invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain);
     }
 
     @Test
     public void definePackage() throws Exception {
-        given(definePackageMethod.invoke(classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
+        given(reflectionHelper.invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
         assertSame(pkg, testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
-        InOrder inOrder = inOrder(definePackageMethod);
-        then(definePackageMethod).should(inOrder).setAccessible(true);
-        then(definePackageMethod).should(inOrder).invoke(classLoader, "foo", "a", "b", "c", "d", "e", "f", url);
+        InOrder inOrder = inOrder(reflectionHelper);
+        then(reflectionHelper).should(inOrder).setAccessible(definePackageMethod, true);
+        then(reflectionHelper).should(inOrder).invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url);
     }
 
     @Test
     public void getPackage() throws Exception {
-        given(getPackageMethod.invoke(classLoader, "foo")).willReturn(pkg);
+        given(reflectionHelper.invoke(getPackageMethod, classLoader, "foo")).willReturn(pkg);
         assertSame(pkg, testTarget.getPackage(classLoader, "foo"));
-        InOrder inOrder = inOrder(getPackageMethod);
-        then(getPackageMethod).should(inOrder).setAccessible(true);
-        then(getPackageMethod).should(inOrder).invoke(classLoader, "foo");
+        InOrder inOrder = inOrder(reflectionHelper);
+        then(reflectionHelper).should(inOrder).setAccessible(getPackageMethod, true);
+        then(reflectionHelper).should(inOrder).invoke(getPackageMethod, classLoader, "foo");
     }
 
     @Test
     public void setParent() throws Exception {
         testTarget.setParent(classLoader, parent);
-        InOrder inOrder = inOrder(parentField);
-        then(parentField).should(inOrder).setAccessible(true);
-        then(parentField).should(inOrder).set(classLoader, parent);
+        InOrder inOrder = inOrder(reflectionHelper);
+        then(reflectionHelper).should(inOrder).setAccessible(parentField, true);
+        then(reflectionHelper).should(inOrder).set(parentField, classLoader, parent);
     }
 
 }

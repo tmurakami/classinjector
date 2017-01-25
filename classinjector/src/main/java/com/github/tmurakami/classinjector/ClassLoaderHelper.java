@@ -10,7 +10,7 @@ abstract class ClassLoaderHelper {
 
     static {
         try {
-            INSTANCE = newInstance();
+            INSTANCE = newInstance(ReflectionHelper.INSTANCE);
         } catch (Exception e) {
             throw new IllegalStateException("This Java version is not supported", e);
         }
@@ -40,18 +40,23 @@ abstract class ClassLoaderHelper {
 
     abstract void setParent(ClassLoader classLoader, ClassLoader parent);
 
-    private static ClassLoaderHelper newInstance() throws Exception {
-        Field parentField = ClassLoader.class.getDeclaredField("parent");
+    final ClassLoader getParent(ClassLoader classLoader) {
+        return classLoader.getParent();
+    }
+
+    private static ClassLoaderHelper newInstance(ReflectionHelper reflectionHelper)
+            throws Exception {
+        Field parentField = reflectionHelper.getDeclaredField(ClassLoader.class, "parent");
         try {
-            parentField.setAccessible(true);
-            return ReflectionClassLoaderHelper.create(parentField);
+            reflectionHelper.setAccessible(parentField, true);
+            return ReflectionClassLoaderHelper.create(parentField, reflectionHelper);
         } catch (RuntimeException e) {
             if ("java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
                 try {
                     Class<?> c = Class.forName("sun.misc.Unsafe");
-                    Field f = c.getDeclaredField("theUnsafe");
-                    f.setAccessible(true);
-                    Object unsafe = f.get(null);
+                    Field f = reflectionHelper.getDeclaredField(c, "theUnsafe");
+                    reflectionHelper.setAccessible(f, true);
+                    Object unsafe = reflectionHelper.get(f, null);
                     return new UnsafeClassLoaderHelper(parentField, Unsafe.wrap(unsafe));
                 } catch (Throwable ignored) {
                 }

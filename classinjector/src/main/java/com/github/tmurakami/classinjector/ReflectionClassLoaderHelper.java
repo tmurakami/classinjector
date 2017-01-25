@@ -12,6 +12,7 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
     private Method defineClassMethod;
     private Method definePackageMethod;
     private Method getPackageMethod;
+    private ReflectionHelper reflectionHelper;
 
     private ReflectionClassLoaderHelper() {
     }
@@ -23,9 +24,10 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                       int off,
                       int len,
                       ProtectionDomain protectionDomain) throws ClassFormatError {
+        ReflectionHelper h = reflectionHelper;
         Method m = defineClassMethod;
-        m.setAccessible(true);
-        return (Class) invoke(m, classLoader, name, b, off, len, protectionDomain);
+        h.setAccessible(m, true);
+        return (Class) invoke(h, m, classLoader, name, b, off, len, protectionDomain);
     }
 
     @Override
@@ -38,9 +40,11 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                           String implVersion,
                           String implVendor,
                           URL sealBase) throws IllegalArgumentException {
+        ReflectionHelper h = reflectionHelper;
         Method m = definePackageMethod;
-        m.setAccessible(true);
+        h.setAccessible(m, true);
         return (Package) invoke(
+                h,
                 m,
                 classLoader,
                 name,
@@ -55,34 +59,39 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
     @Override
     Package getPackage(ClassLoader classLoader, String name) {
+        ReflectionHelper h = reflectionHelper;
         Method m = getPackageMethod;
-        m.setAccessible(true);
-        return (Package) invoke(m, classLoader, name);
+        h.setAccessible(m, true);
+        return (Package) invoke(h, m, classLoader, name);
     }
 
     @Override
     void setParent(ClassLoader classLoader, ClassLoader parent) {
+        ReflectionHelper h = reflectionHelper;
         Field f = parentField;
-        f.setAccessible(true);
+        h.setAccessible(f, true);
         try {
-            f.set(classLoader, parent);
+            h.set(f, classLoader, parent);
         } catch (IllegalAccessException e) {
             throw new IllegalAccessError(e.getMessage());
         }
     }
 
-    static ReflectionClassLoaderHelper create(Field parentField) throws NoSuchMethodException {
+    static ReflectionClassLoaderHelper create(Field parentField, ReflectionHelper reflectionHelper)
+            throws NoSuchMethodException {
         Class<?> c = ClassLoader.class;
         ReflectionClassLoaderHelper o = new ReflectionClassLoaderHelper();
         o.parentField = parentField;
-        o.defineClassMethod = c.getDeclaredMethod(
+        o.defineClassMethod = reflectionHelper.getDeclaredMethod(
+                c,
                 "defineClass",
                 String.class,
                 byte[].class,
                 int.class,
                 int.class,
                 ProtectionDomain.class);
-        o.definePackageMethod = c.getDeclaredMethod(
+        o.definePackageMethod = reflectionHelper.getDeclaredMethod(
+                c,
                 "definePackage",
                 String.class,
                 String.class,
@@ -92,13 +101,16 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                 String.class,
                 String.class,
                 URL.class);
-        o.getPackageMethod = c.getDeclaredMethod("getPackage", String.class);
+        o.getPackageMethod = reflectionHelper.getDeclaredMethod(c, "getPackage", String.class);
+        o.reflectionHelper = reflectionHelper;
         return o;
     }
 
-    private static Object invoke(Method method, Object o, Object... parameters) {
+    private static Object invoke(ReflectionHelper reflectionHelper,
+                                 Method method,
+                                 Object o, Object... parameters) {
         try {
-            return method.invoke(o, parameters);
+            return reflectionHelper.invoke(method, o, parameters);
         } catch (IllegalAccessException e) {
             throw new IllegalAccessError(e.getMessage());
         } catch (InvocationTargetException e) {

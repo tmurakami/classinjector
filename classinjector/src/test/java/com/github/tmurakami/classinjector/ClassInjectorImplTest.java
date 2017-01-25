@@ -30,7 +30,7 @@ public class ClassInjectorImplTest {
 
     @Test
     public void into() throws Exception {
-        given(target.getParent()).willReturn(parent);
+        given(classLoaderHelper.getParent(target)).willReturn(parent);
         given(classLoaderFactory.newClassLoader(parent, source, target)).willReturn(stealthClassLoader);
         testTarget.into(target);
         then(classLoaderHelper).should().setParent(target, stealthClassLoader);
@@ -43,7 +43,7 @@ public class ClassInjectorImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void into_alreadyInjected() throws Exception {
-        given(target.getParent()).willReturn(stealthClassLoader);
+        given(classLoaderHelper.getParent(target)).willReturn(stealthClassLoader);
         testTarget.into(target);
     }
 
