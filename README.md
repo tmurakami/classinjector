@@ -7,7 +7,7 @@
 
 A library that provides the ability to inject classes into a class loader.
 
-## Example
+## Usage
 
 ```java
 ClassInjector.from(new ClassSource() {
