@@ -20,6 +20,9 @@ import static org.mockito.Mockito.inOrder;
 @RunWith(MockitoJUnitRunner.class)
 public class ReflectionClassLoaderHelperTest {
 
+    @InjectMocks
+    ReflectionClassLoaderHelper testTarget;
+
     @Mock
     Field parentField;
     @Mock(name = "defineClassMethod")
@@ -40,9 +43,6 @@ public class ReflectionClassLoaderHelperTest {
     Package pkg;
     @Mock
     ClassLoader parent;
-
-    @InjectMocks
-    ReflectionClassLoaderHelper testTarget;
 
     @Test
     public void defineClass() throws Exception {

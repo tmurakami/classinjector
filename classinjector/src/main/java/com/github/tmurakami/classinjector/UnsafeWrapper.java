@@ -3,12 +3,12 @@ package com.github.tmurakami.classinjector;
 import java.lang.reflect.Field;
 import java.security.ProtectionDomain;
 
-final class Unsafe {
+final class UnsafeWrapper {
 
-    private final sun.misc.Unsafe delegate;
+    private final Object unsafe;
 
-    private Unsafe(sun.misc.Unsafe delegate) {
-        this.delegate = delegate;
+    UnsafeWrapper(Object unsafe) {
+        this.unsafe = unsafe;
     }
 
     Class defineClass(String name,
@@ -17,19 +17,19 @@ final class Unsafe {
                       int len,
                       ClassLoader loader,
                       ProtectionDomain protectionDomain) {
-        return delegate.defineClass(name, b, off, len, loader, protectionDomain);
+        return getUnsafe().defineClass(name, b, off, len, loader, protectionDomain);
     }
 
     long objectFieldOffset(Field f) {
-        return delegate.objectFieldOffset(f);
+        return getUnsafe().objectFieldOffset(f);
     }
 
     void putObject(Object o, long offset, Object x) {
-        delegate.putObject(o, offset, x);
+        getUnsafe().putObject(o, offset, x);
     }
 
-    static Unsafe wrap(Object sunMiscUnsafe) {
-        return new Unsafe((sun.misc.Unsafe) sunMiscUnsafe);
+    private sun.misc.Unsafe getUnsafe() {
+        return (sun.misc.Unsafe) unsafe;
     }
 
 }

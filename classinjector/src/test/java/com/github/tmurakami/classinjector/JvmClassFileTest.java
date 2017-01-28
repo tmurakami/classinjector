@@ -46,14 +46,19 @@ public class JvmClassFileTest {
         new JvmClassFile("foo.Bar", new byte[0]);
     }
 
+    @SuppressWarnings("TryFinallyCanBeTryWithResources")
     @Test
     public void toClass() throws Exception {
         String name = C.class.getName();
-        InputStream in = getClass().getResourceAsStream('/' + name.replace('.', '/') + ".class");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[16384];
-        for (int l; (l = in.read(buffer)) != -1; ) {
-            out.write(buffer, 0, l);
+        InputStream in = getClass().getResourceAsStream('/' + name.replace('.', '/') + ".class");
+        try {
+            byte[] buffer = new byte[16384];
+            for (int l; (l = in.read(buffer)) != -1; ) {
+                out.write(buffer, 0, l);
+            }
+        } finally {
+            in.close();
         }
         ClassLoader classLoader = new ClassLoader() {
         };

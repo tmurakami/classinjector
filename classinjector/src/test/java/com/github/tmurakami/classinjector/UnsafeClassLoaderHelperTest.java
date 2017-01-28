@@ -18,10 +18,13 @@ import static org.mockito.BDDMockito.then;
 @RunWith(MockitoJUnitRunner.class)
 public class UnsafeClassLoaderHelperTest {
 
+    @InjectMocks
+    UnsafeClassLoaderHelper testTarget;
+
     @Mock
     Field parentField;
     @Mock
-    Unsafe unsafe;
+    UnsafeWrapper unsafeWrapper;
     @Mock
     ClassLoader classLoader;
     @Mock
@@ -31,14 +34,11 @@ public class UnsafeClassLoaderHelperTest {
     @Mock
     ClassLoader parent;
 
-    @InjectMocks
-    UnsafeClassLoaderHelper testTarget;
-
     @Test
     public void defineClass() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
-        given(unsafe.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
+        given(unsafeWrapper.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
         assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain));
     }
 
@@ -54,9 +54,9 @@ public class UnsafeClassLoaderHelperTest {
 
     @Test
     public void setParent() throws Exception {
-        given(unsafe.objectFieldOffset(parentField)).willReturn(1L);
+        given(unsafeWrapper.objectFieldOffset(parentField)).willReturn(1L);
         testTarget.setParent(classLoader, parent);
-        then(unsafe).should().putObject(classLoader, 1L, parent);
+        then(unsafeWrapper).should().putObject(classLoader, 1L, parent);
     }
 
 }

@@ -7,11 +7,11 @@ import java.security.ProtectionDomain;
 final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
 
     private final Field parentField;
-    private final Unsafe unsafe;
+    private final UnsafeWrapper unsafeWrapper;
 
-    UnsafeClassLoaderHelper(Field parentField, Unsafe unsafe) {
+    UnsafeClassLoaderHelper(Field parentField, UnsafeWrapper unsafeWrapper) {
         this.parentField = parentField;
-        this.unsafe = unsafe;
+        this.unsafeWrapper = unsafeWrapper;
     }
 
     @Override
@@ -21,7 +21,7 @@ final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
                       int off,
                       int len,
                       ProtectionDomain protectionDomain) throws ClassFormatError {
-        return unsafe.defineClass(name, b, off, len, classLoader, protectionDomain);
+        return unsafeWrapper.defineClass(name, b, off, len, classLoader, protectionDomain);
     }
 
     @Override
@@ -44,7 +44,7 @@ final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
 
     @Override
     void setParent(ClassLoader classLoader, ClassLoader parent) {
-        Unsafe u = unsafe;
+        UnsafeWrapper u = unsafeWrapper;
         u.putObject(classLoader, u.objectFieldOffset(parentField), parent);
     }
 

@@ -49,7 +49,6 @@ abstract class ClassLoaderHelper {
         Field parentField = reflectionHelper.getDeclaredField(ClassLoader.class, "parent");
         try {
             reflectionHelper.setAccessible(parentField, true);
-            return ReflectionClassLoaderHelper.create(parentField, reflectionHelper);
         } catch (RuntimeException e) {
             if ("java.lang.reflect.InaccessibleObjectException".equals(e.getClass().getName())) {
                 try {
@@ -57,12 +56,13 @@ abstract class ClassLoaderHelper {
                     Field f = reflectionHelper.getDeclaredField(c, "theUnsafe");
                     reflectionHelper.setAccessible(f, true);
                     Object unsafe = reflectionHelper.get(f, null);
-                    return new UnsafeClassLoaderHelper(parentField, Unsafe.wrap(unsafe));
-                } catch (Throwable ignored) {
+                    return new UnsafeClassLoaderHelper(parentField, new UnsafeWrapper(unsafe));
+                } catch (Exception ignored) {
                 }
             }
             throw e;
         }
+        return ReflectionClassLoaderHelper.create(parentField, reflectionHelper);
     }
 
 }
