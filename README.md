@@ -11,8 +11,9 @@ A library that provides the ability to inject classes into a class loader.
 
 ```java
 ClassInjector.from(new ClassSource() {
+    @Nullable
     @Override
-    public ClassFile getClassFile(String className) throws IOException {
+    public ClassFile getClassFile(@Nonnull String className) throws IOException {
         // Find bytecode for the given class name from arbitrary sources.
         byte[] bytecode = ...
         // Return the ClassFile object with the given class name and its bytecode.
@@ -27,8 +28,9 @@ For Android, use DexClassFile instead of JvmClassFile.
 // Get a Context object.
 final Context context = ...
 ClassInjector.from(new ClassSource() {
+    @Nullable
     @Override
-    public ClassFile getClassFile(String className) throws IOException {
+    public ClassFile getClassFile(@NonNull String className) throws IOException {
         // Find a zip file containing "classes.dex" with the given class name.
         String sourcePath = ...
         // If not found, return null.
