@@ -37,11 +37,6 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_nullTarget() throws Exception {
-        testTarget.into(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void into_alreadyInjected() throws Exception {
         given(classLoaderHelper.getParent(target)).willReturn(stealthClassLoader);
         testTarget.into(target);

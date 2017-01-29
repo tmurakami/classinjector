@@ -72,10 +72,4 @@ public class StealthClassLoaderTest {
         testTarget.findClass("foo.Bar");
     }
 
-    @Test(expected = NoClassDefFoundError.class)
-    public void findClass_noClassCreated() throws Exception {
-        given(source.getClassFile("foo.Bar")).willReturn(classFile);
-        testTarget.findClass("foo.Bar");
-    }
-
 }

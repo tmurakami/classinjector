@@ -1,5 +1,7 @@
 package com.github.tmurakami.classinjector.android;
 
+import android.support.annotation.NonNull;
+
 import com.github.tmurakami.classinjector.ClassFile;
 
 import java.util.Enumeration;
@@ -21,15 +23,9 @@ public final class DexClassFile implements ClassFile {
      * @param className the class name
      * @param dexFile   the dex file including the data for the given class name
      */
-    public DexClassFile(String className, DexFile dexFile) {
-        if (className == null) {
-            throw new IllegalArgumentException("'className' is null");
-        }
+    public DexClassFile(@NonNull String className, @NonNull DexFile dexFile) {
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
-        }
-        if (dexFile == null) {
-            throw new IllegalArgumentException("'dexFile' is null");
         }
         for (Enumeration<String> e = dexFile.entries(); e.hasMoreElements(); ) {
             if (className.equals(e.nextElement())) {
@@ -41,11 +37,9 @@ public final class DexClassFile implements ClassFile {
         throw new IllegalArgumentException("'dexFile' does not contain data making up class " + className);
     }
 
+    @NonNull
     @Override
-    public Class toClass(ClassLoader classLoader) {
-        if (classLoader == null) {
-            throw new IllegalArgumentException("'classLoader' is null");
-        }
+    public Class toClass(@NonNull ClassLoader classLoader) {
         return dexFile.loadClass(className, classLoader);
     }
 

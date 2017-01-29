@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * The Class sources is an object representing a group of {@link ClassSource} objects.
  */
@@ -15,12 +18,9 @@ public final class ClassSources implements ClassSource {
     /**
      * Instantiates a new instance.
      *
-     * @param sources the collection of non-null {@link ClassSource} objects
+     * @param sources the collection of {@link ClassSource} objects
      */
-    public ClassSources(Iterable<? extends ClassSource> sources) {
-        if (sources == null) {
-            throw new IllegalArgumentException("'sources' is null");
-        }
+    public ClassSources(@Nonnull Iterable<? extends ClassSource> sources) {
         List<ClassSource> list = new ArrayList<>();
         for (ClassSource s : sources) {
             if (s == null) {
@@ -34,11 +34,9 @@ public final class ClassSources implements ClassSource {
         this.sources = list;
     }
 
+    @Nullable
     @Override
-    public ClassFile getClassFile(String className) throws IOException {
-        if (className == null) {
-            throw new IllegalArgumentException("'className' is null");
-        }
+    public ClassFile getClassFile(@Nonnull String className) throws IOException {
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
         }

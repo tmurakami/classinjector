@@ -59,6 +59,7 @@ And then, for Java (7 or later):
 ```groovy
 dependencies {
     compile 'com.github.tmurakami.classinjector:classinjector:x.y.z'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
 }
 ```
 
@@ -72,5 +73,6 @@ android {
 
 dependencies {
     compile 'com.github.tmurakami.classinjector:classinjector-android:x.y.z'
+    provided 'com.android.support:support-annotations:x.y.z'
 }
 ```

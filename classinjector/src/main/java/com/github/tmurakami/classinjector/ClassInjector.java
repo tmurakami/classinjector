@@ -1,5 +1,7 @@
 package com.github.tmurakami.classinjector;
 
+import javax.annotation.Nonnull;
+
 /**
  * The class injector is an object that injects classes into a class loader.
  */
@@ -14,7 +16,7 @@ public abstract class ClassInjector {
      *
      * @param target the {@link ClassLoader} with a non-null parent loader
      */
-    public abstract void into(ClassLoader target);
+    public abstract void into(@Nonnull ClassLoader target);
 
     /**
      * Instantiates a new instance.
@@ -23,10 +25,8 @@ public abstract class ClassInjector {
      * @return the class injector for injecting classes constructed with the specified source into
      * a class loader
      */
-    public static ClassInjector from(ClassSource source) {
-        if (source == null) {
-            throw new IllegalArgumentException("'source' is null");
-        }
+    @Nonnull
+    public static ClassInjector from(@Nonnull ClassSource source) {
         return new ClassInjectorImpl(source, ClassLoaderFactory.INSTANCE, ClassLoaderHelper.INSTANCE);
     }
 

@@ -20,11 +20,6 @@ public class ClassSourcesTest {
     ClassFile classFile;
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_nullSources() {
-        new ClassSources(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void _new_emptySources() {
         new ClassSources(Collections.<ClassSource>emptyList());
     }
@@ -38,11 +33,6 @@ public class ClassSourcesTest {
     public void getClassFile() throws Exception {
         given(source.getClassFile("foo.Bar")).willReturn(classFile);
         assertSame(classFile, new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getClassFile_nullClassName() throws Exception {
-        new ClassSources(Collections.singleton(source)).getClassFile(null);
     }
 
     @Test(expected = IllegalArgumentException.class)

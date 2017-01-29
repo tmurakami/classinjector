@@ -41,9 +41,6 @@ final class StealthClassLoader extends ClassLoader {
                 } finally {
                     classes.remove(name);
                 }
-                if (c == null) {
-                    throw new NoClassDefFoundError("No class created from the class file for " + name);
-                }
                 return c;
             }
         }

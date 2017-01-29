@@ -21,18 +21,8 @@ public class DexClassFileTest {
     ClassLoader classLoader;
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_nullName() throws Exception {
-        new DexClassFile(null, dexFile);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void _new_emptyName() throws Exception {
         new DexClassFile("", dexFile);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void _new_nullDexFile() throws Exception {
-        new DexClassFile("foo.Bar", null);
     }
 
     @Test
@@ -41,12 +31,6 @@ public class DexClassFileTest {
         given(dexFile.entries()).willReturn(Collections.enumeration(Collections.singleton("foo.Bar")));
         given(dexFile.loadClass("foo.Bar", classLoader)).willReturn(c);
         assertSame(c, new DexClassFile("foo.Bar", dexFile).toClass(classLoader));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void toClass_nullClassLoader() throws Exception {
-        given(dexFile.entries()).willReturn(Collections.enumeration(Collections.singleton("foo.Bar")));
-        new DexClassFile("foo.Bar", dexFile).toClass(null);
     }
 
 }

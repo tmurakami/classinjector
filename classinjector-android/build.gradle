@@ -27,6 +27,7 @@ android {
 
 dependencies {
     compile deps.classinjector
+    provided deps.support_annotations
     testCompile deps.junit
     testCompile deps.mockito
     androidTestCompile deps.rules
@@ -41,7 +42,7 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     failOnError false
     source = android.sourceSets.main.java.sourceFiles
-    classpath += files(configurations.compile)
+    classpath += files(configurations.compile, configurations.provided)
     doFirst {
         classpath += files(android.bootClasspath)
     }

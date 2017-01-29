@@ -2,6 +2,9 @@ package com.github.tmurakami.classinjector;
 
 import java.security.ProtectionDomain;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * This class file is for Java VM.
  */
@@ -19,7 +22,7 @@ public final class JvmClassFile implements ClassFile {
      * @param className the class name
      * @param bytecode  the bytecode that make up the class
      */
-    public JvmClassFile(String className, byte[] bytecode) {
+    public JvmClassFile(@Nonnull String className, @Nonnull byte[] bytecode) {
         this(className, bytecode, null);
     }
 
@@ -31,7 +34,9 @@ public final class JvmClassFile implements ClassFile {
      * @param bytecode         the bytecode that make up the class
      * @param protectionDomain the protection domain, or null
      */
-    public JvmClassFile(String className, byte[] bytecode, ProtectionDomain protectionDomain) {
+    public JvmClassFile(@Nonnull String className,
+                        @Nonnull byte[] bytecode,
+                        @Nullable ProtectionDomain protectionDomain) {
         this(className, bytecode, protectionDomain, ClassLoaderHelper.INSTANCE);
     }
 
@@ -39,14 +44,8 @@ public final class JvmClassFile implements ClassFile {
                  byte[] bytecode,
                  ProtectionDomain protectionDomain,
                  ClassLoaderHelper classLoaderHelper) {
-        if (className == null) {
-            throw new IllegalArgumentException("'className' is null");
-        }
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
-        }
-        if (bytecode == null) {
-            throw new IllegalArgumentException("'bytecode' is null");
         }
         if (bytecode.length == 0) {
             throw new IllegalArgumentException("'bytecode' is empty");
@@ -60,11 +59,9 @@ public final class JvmClassFile implements ClassFile {
         this.classLoaderHelper = classLoaderHelper;
     }
 
+    @Nonnull
     @Override
-    public Class toClass(ClassLoader classLoader) {
-        if (classLoader == null) {
-            throw new IllegalArgumentException("'classLoader' is null");
-        }
+    public Class toClass(@Nonnull ClassLoader classLoader) {
         String name = className;
         ClassLoaderHelper h = classLoaderHelper;
         int dot = name.lastIndexOf('.');

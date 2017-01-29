@@ -27,18 +27,8 @@ public class JvmClassFileTest {
     ClassLoader classLoader;
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_nullName() throws Exception {
-        new JvmClassFile(null, new byte[0]);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void _new_emptyName() throws Exception {
         new JvmClassFile("", new byte[0]);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void _new_nullBytecode() throws Exception {
-        new JvmClassFile("foo.Bar", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -77,11 +67,6 @@ public class JvmClassFileTest {
         then(classLoaderHelper).should(inOrder).getPackage(classLoader, "foo");
         then(classLoaderHelper).should(inOrder).definePackage(classLoader, "foo", null, null, null, null, null, null, null);
         then(classLoaderHelper).should(inOrder).defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void toClass_nullClassLoader() throws Exception {
-        new JvmClassFile("foo.Bar", "abc".getBytes()).toClass(null);
     }
 
     private static class C {

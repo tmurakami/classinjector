@@ -1,5 +1,7 @@
 package com.github.tmurakami.classinjector;
 
+import javax.annotation.Nonnull;
+
 final class ClassInjectorImpl extends ClassInjector {
 
     private final ClassSource source;
@@ -15,10 +17,7 @@ final class ClassInjectorImpl extends ClassInjector {
     }
 
     @Override
-    public void into(ClassLoader target) {
-        if (target == null) {
-            throw new IllegalArgumentException("'target' is null");
-        }
+    public void into(@Nonnull ClassLoader target) {
         ClassLoaderHelper h = classLoaderHelper;
         ClassLoader parent = h.getParent(target);
         if (parent == null) {
