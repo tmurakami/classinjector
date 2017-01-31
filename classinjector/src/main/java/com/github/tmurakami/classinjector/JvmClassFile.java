@@ -1,6 +1,7 @@
 package com.github.tmurakami.classinjector;
 
 import java.security.ProtectionDomain;
+import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,14 +48,12 @@ public final class JvmClassFile implements ClassFile {
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
         }
-        if (bytecode.length == 0) {
+        int length = bytecode.length;
+        if (length == 0) {
             throw new IllegalArgumentException("'bytecode' is empty");
         }
         this.className = className;
-        int length = bytecode.length;
-        byte[] bytes = new byte[length];
-        System.arraycopy(bytecode, 0, bytes, 0, length);
-        this.bytecode = bytes;
+        this.bytecode = Arrays.copyOf(bytecode, length);
         this.protectionDomain = protectionDomain;
         this.classLoaderHelper = classLoaderHelper;
     }

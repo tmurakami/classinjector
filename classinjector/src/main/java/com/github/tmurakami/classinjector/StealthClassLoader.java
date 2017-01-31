@@ -22,11 +22,11 @@ final class StealthClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        Set<String> classes = findingClasses;
-        if (classes.contains(name)) {
-            throw new IllegalStateException(name + " is recursively loaded");
-        }
         if (!name.startsWith(MY_PACKAGE)) {
+            Set<String> classes = findingClasses;
+            if (classes.contains(name)) {
+                throw new IllegalStateException(name + " is recursively loaded");
+            }
             ClassFile f;
             try {
                 f = source.getClassFile(name);
@@ -34,14 +34,12 @@ final class StealthClassLoader extends ClassLoader {
                 throw new IOError(e);
             }
             if (f != null) {
-                Class<?> c;
                 classes.add(name);
                 try {
-                    c = f.toClass(injectionTarget);
+                    return f.toClass(injectionTarget);
                 } finally {
                     classes.remove(name);
                 }
-                return c;
             }
         }
         return super.findClass(name);
