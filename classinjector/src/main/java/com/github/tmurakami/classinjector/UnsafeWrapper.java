@@ -5,10 +5,10 @@ import java.security.ProtectionDomain;
 
 final class UnsafeWrapper {
 
-    private final Object unsafe;
+    private final sun.misc.Unsafe unsafe;
 
     UnsafeWrapper(Object unsafe) {
-        this.unsafe = unsafe;
+        this.unsafe = (sun.misc.Unsafe) unsafe;
     }
 
     Class defineClass(String name,
@@ -17,19 +17,15 @@ final class UnsafeWrapper {
                       int len,
                       ClassLoader loader,
                       ProtectionDomain protectionDomain) {
-        return getUnsafe().defineClass(name, b, off, len, loader, protectionDomain);
+        return unsafe.defineClass(name, b, off, len, loader, protectionDomain);
     }
 
     long objectFieldOffset(Field f) {
-        return getUnsafe().objectFieldOffset(f);
+        return unsafe.objectFieldOffset(f);
     }
 
     void putObject(Object o, long offset, Object x) {
-        getUnsafe().putObject(o, offset, x);
-    }
-
-    private sun.misc.Unsafe getUnsafe() {
-        return (sun.misc.Unsafe) unsafe;
+        unsafe.putObject(o, offset, x);
     }
 
 }
