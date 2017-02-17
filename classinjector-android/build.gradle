@@ -41,10 +41,6 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.resources.sourceFiles
 }
 
-javadoc {
-    options.links 'https://developer.android.com/reference/'
-}
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir

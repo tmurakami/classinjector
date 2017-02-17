@@ -1,7 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
+apply from: "$rootDir/gradle/java-javadoc.gradle"
+
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = JavaVersion.VERSION_1_7
+//noinspection GroovyUnusedAssignment
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
@@ -13,10 +17,6 @@ dependencies {
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
-}
-
-javadoc {
-    options.links 'https://docs.oracle.com/javase/7/docs/api/'
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
