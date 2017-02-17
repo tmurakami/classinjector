@@ -40,13 +40,20 @@ task sourcesJar(type: Jar) {
 }
 
 task javadoc(type: Javadoc) {
-    failOnError false
     source = android.sourceSets.main.java.sourceFiles
     classpath += files(configurations.compile, configurations.provided)
-    doFirst {
-        classpath += files(android.bootClasspath)
+    afterEvaluate {
+        owner.classpath += files(android.bootClasspath)
     }
-    options.links 'https://developer.android.com/reference/'
+    options {
+        def androidRef = 'https://developer.android.com/reference/'
+        links androidRef
+        def allowScriptInComments = '-allow-script-in-comments'
+        if (javax.tools.ToolProvider.systemDocumentationTool.isSupportedOption(allowScriptInComments)) {
+            addBooleanOption allowScriptInComments, true
+        }
+        bottom "<script>var l=document.links;for(var i in l){var e=l[i];if(e.href.indexOf(\"$androidRef\")===0)e.target=\"_blank\"}</script>"
+    }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
