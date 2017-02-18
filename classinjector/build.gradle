@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
-apply from: "$rootDir/gradle/java-javadoc.gradle"
+apply from: "$rootDir/gradle/java.gradle"
 
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = JavaVersion.VERSION_1_7
