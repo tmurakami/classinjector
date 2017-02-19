@@ -35,7 +35,7 @@ public class StealthClassLoaderTest {
     }
 
     @Test
-    public void findClass() throws Exception {
+    public void the_findClass_method_should_return_the_Class_with_the_given_name() throws Exception {
         given(source.getClassFile("foo.Bar")).willReturn(classFile);
         Class<?> c = getClass();
         given(classFile.toClass(injectionTarget)).willReturn(c);
@@ -43,7 +43,7 @@ public class StealthClassLoaderTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void findClass_recursivelyCall() throws Exception {
+    public void the_findClass_method_should_throw_an_IllegalStateException_if_called_recursively() throws Exception {
         given(source.getClassFile("foo.Bar")).willReturn(classFile);
         given(classFile.toClass(injectionTarget)).will(new Answer<Class<?>>() {
             @Override
@@ -56,18 +56,18 @@ public class StealthClassLoaderTest {
     }
 
     @Test(expected = ClassNotFoundException.class)
-    public void findClass_findMyClass() throws Exception {
+    public void the_findClass_method_should_throw_a_ClassNotFoundException_if_the_class_name_belongs_to_the_ClassInjector_package() throws Exception {
         testTarget.findClass(StealthClassLoaderTest.class.getName());
     }
 
     @Test(expected = ClassNotFoundException.class)
-    public void findClass_classFileNotFound() throws Exception {
+    public void the_findClass_method_should_throw_a_ClassNotFoundException_if_the_class_with_the_given_name_cannot_be_found() throws Exception {
         testTarget.findClass("foo.Bar");
         then(source).should().getClassFile("foo.Bar");
     }
 
     @Test(expected = IOError.class)
-    public void findClass_ioErrorWhileGettingClassFile() throws Exception {
+    public void the_findClass_method_should_throw_an_IOError_if_an_IO_error_occurs_while_getting_a_ClassFile() throws Exception {
         given(source.getClassFile("foo.Bar")).willThrow(IOException.class);
         testTarget.findClass("foo.Bar");
     }

@@ -35,7 +35,7 @@ public class UnsafeClassLoaderHelperTest {
     ClassLoader parent;
 
     @Test
-    public void defineClass() throws Exception {
+    public void the_defineClass_method_should_simply_call_the_UnsafeWrapper_defineClass_method() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         given(unsafeWrapper.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
@@ -43,17 +43,17 @@ public class UnsafeClassLoaderHelperTest {
     }
 
     @Test
-    public void definePackage() throws Exception {
+    public void the_definePackage_method_should_return_null() throws Exception {
         assertNull(testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
     }
 
     @Test
-    public void getPackage() throws Exception {
+    public void the_getPackage_method_should_return_null() throws Exception {
         assertNull(testTarget.getPackage(classLoader, "foo"));
     }
 
     @Test
-    public void setParent() throws Exception {
+    public void the_setParent_method_should_set_the_ClassLoader_parent_field_to_the_given_parent_via_the_UnsafeWrapper() throws Exception {
         given(unsafeWrapper.objectFieldOffset(parentField)).willReturn(1L);
         testTarget.setParent(classLoader, parent);
         then(unsafeWrapper).should().putObject(classLoader, 1L, parent);

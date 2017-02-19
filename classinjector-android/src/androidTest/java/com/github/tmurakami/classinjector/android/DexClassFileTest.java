@@ -20,7 +20,7 @@ public class DexClassFileTest {
     public final TemporaryFolder folder = new TemporaryFolder(context.getDir("dex_cache", Context.MODE_PRIVATE));
 
     @Test
-    public void toClass() throws Exception {
+    public void the_toClass_method_should_return_the_Class_with_the_given_name() throws Exception {
         String sourcePathName = context.getApplicationInfo().sourceDir;
         String outputPathName = folder.newFile().getCanonicalPath();
         DexFile dexFile = DexFile.loadDex(sourcePathName, outputPathName, 0);

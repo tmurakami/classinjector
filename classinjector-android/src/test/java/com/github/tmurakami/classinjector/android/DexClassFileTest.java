@@ -21,12 +21,12 @@ public class DexClassFileTest {
     ClassLoader classLoader;
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_emptyName() throws Exception {
+    public void the_constructor_should_throw_an_IllegalArgumentException_if_the_class_name_is_empty() throws Exception {
         new DexClassFile("", dexFile);
     }
 
     @Test
-    public void toClass() throws Exception {
+    public void the_toClass_method_should_return_the_Class_with_the_given_name() throws Exception {
         Class<?> c = getClass();
         given(dexFile.entries()).willReturn(Collections.enumeration(Collections.singleton("foo.Bar")));
         given(dexFile.loadClass("foo.Bar", classLoader)).willReturn(c);

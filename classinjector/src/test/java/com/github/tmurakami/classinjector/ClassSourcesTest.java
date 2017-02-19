@@ -20,28 +20,28 @@ public class ClassSourcesTest {
     ClassFile classFile;
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_emptySources() {
+    public void the_constructor_should_throw_an_IllegalArgumentException_if_the_sources_are_empty() {
         new ClassSources(Collections.<ClassSource>emptyList());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void _new_containsNullSource() {
+    public void the_constructor_should_throw_an_IllegalArgumentException_if_the_sources_contain_null() {
         new ClassSources(Collections.<ClassSource>singleton(null));
     }
 
     @Test
-    public void getClassFile() throws Exception {
+    public void the_getClassFile_method_should_return_the_ClassFile_with_the_given_name() throws Exception {
         given(source.getClassFile("foo.Bar")).willReturn(classFile);
         assertSame(classFile, new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getClassFile_emptyClassName() throws Exception {
+    public void the_getClassFile_method_should_throw_an_IllegalArgumentException_if_the_class_name_is_empty() throws Exception {
         new ClassSources(Collections.singleton(source)).getClassFile("");
     }
 
     @Test
-    public void getClassFile_classNotFound() throws Exception {
+    public void the_getClassFile_method_should_return_null_if_the_class_with_the_given_name_cannot_be_found() throws Exception {
         assertNull(new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));
     }
 

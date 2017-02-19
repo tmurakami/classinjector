@@ -15,35 +15,35 @@ public class ReflectionHelperTest {
     private final ReflectionHelper reflectionHelper = ReflectionHelper.INSTANCE;
 
     @Test
-    public void get() throws Exception {
+    public void the_get_method_should_simply_call_the_Field_get_method() throws Exception {
         Field f = C.class.getDeclaredField("value");
         f.setAccessible(true);
         assertEquals("0", reflectionHelper.get(f, new C("0")));
     }
 
     @Test
-    public void getDeclaredField() throws Exception {
+    public void the_getDeclaredField_method_should_simply_call_the_Class_getDeclaredField_method() throws Exception {
         Field f = reflectionHelper.getDeclaredField(C.class, "value");
         assertSame(C.class, f.getDeclaringClass());
         assertEquals("value", f.getName());
     }
 
     @Test
-    public void getDeclaredMethod() throws Exception {
+    public void the_getDeclaredMethod_method_should_simply_call_the_Class_getDeclaredMethod_method() throws Exception {
         Method m = reflectionHelper.getDeclaredMethod(C.class, "doIt", String.class);
         assertSame(C.class, m.getDeclaringClass());
         assertEquals("doIt", m.getName());
     }
 
     @Test
-    public void invoke() throws Exception {
+    public void the_invoke_method_should_simply_call_the_Method_invoke_method() throws Exception {
         Method m = C.class.getDeclaredMethod("doIt", String.class);
         m.setAccessible(true);
         assertEquals("01", reflectionHelper.invoke(m, new C("0"), "1"));
     }
 
     @Test
-    public void set() throws Exception {
+    public void the_set_method_should_simply_call_the_Field_set_method() throws Exception {
         Field f = C.class.getDeclaredField("value");
         f.setAccessible(true);
         C c = new C("0");
@@ -52,7 +52,7 @@ public class ReflectionHelperTest {
     }
 
     @Test
-    public void setAccessible() throws Exception {
+    public void the_setAccessible_method_should_simply_call_the_AccessibleObject_setAccessible_method() throws Exception {
         Field f = C.class.getDeclaredField("value");
         assertFalse(f.isAccessible());
         reflectionHelper.setAccessible(f, true);

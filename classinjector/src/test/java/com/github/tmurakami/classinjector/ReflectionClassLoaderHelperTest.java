@@ -45,7 +45,7 @@ public class ReflectionClassLoaderHelperTest {
     ClassLoader parent;
 
     @Test
-    public void defineClass() throws Exception {
+    public void the_defineClass_method_should_call_the_ClassLoader_defineClass_method_via_the_ReflectionHelper() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         given(reflectionHelper.invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
@@ -56,7 +56,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void definePackage() throws Exception {
+    public void the_definePackage_method_should_call_the_ClassLoader_definePackage_method_via_the_ReflectionHelper() throws Exception {
         given(reflectionHelper.invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
         assertSame(pkg, testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -65,7 +65,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void getPackage() throws Exception {
+    public void the_getPackage_method_should_call_the_ClassLoader_getPackage_method_via_the_ReflectionHelper() throws Exception {
         given(reflectionHelper.invoke(getPackageMethod, classLoader, "foo")).willReturn(pkg);
         assertSame(pkg, testTarget.getPackage(classLoader, "foo"));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -74,7 +74,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void setParent() throws Exception {
+    public void the_setParent_method_should_set_the_ClassLoader_parent_field_to_the_given_parent_via_the_ReflectionHelper() throws Exception {
         testTarget.setParent(classLoader, parent);
         InOrder inOrder = inOrder(reflectionHelper);
         then(reflectionHelper).should(inOrder).setAccessible(parentField, true);
