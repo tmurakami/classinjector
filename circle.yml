@@ -1,7 +1,8 @@
 machine:
   environment:
-    ADB_INSTALL_TIMEOUT: 100
-    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    ADB_INSTALL_TIMEOUT: 10
+    GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    TERM: dumb
   java:
     version: openjdk8
 dependencies:
@@ -22,7 +23,7 @@ test:
     - adb shell settings put global window_animation_scale 0
     - adb shell settings put global transition_animation_scale 0
     - adb shell settings put global animator_duration_scale 0
-    - ./gradlew :classinjector-android:connectedDebugAndroidTest
+    - ./gradlew -p classinjector-android connectedDebugAndroidTest
   post:
     - mkdir $CIRCLE_TEST_REPORTS/lint
     - find . -type f -regex '.*/build/outputs/lint.*\.xml' -exec cp -p {} $CIRCLE_TEST_REPORTS/lint \;

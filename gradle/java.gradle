@@ -1,2 +1,2 @@
-apply from: "$rootDir/gradle/java-jacoco.gradle"
-apply from: "$rootDir/gradle/java-javadoc.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/javadoc.gradle"
