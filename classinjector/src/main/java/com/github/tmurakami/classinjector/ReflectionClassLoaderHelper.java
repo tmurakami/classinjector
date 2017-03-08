@@ -120,8 +120,7 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
             } else if (cause instanceof Error) {
                 throw (Error) cause;
             } else {
-                throw new IllegalStateException("Cannot invoke "
-                        + method.getDeclaringClass().getName() + '#' + method.getName(), cause);
+                throw new IllegalStateException("Cannot invoke " + method.getDeclaringClass().getName() + '#' + method.getName(), cause);
             }
         }
     }
