@@ -2,8 +2,6 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.14.0'
 }
 
-apply plugin: 'com.github.ben-manes.versions'
-
 apply from: "$rootDir/gradle/version.gradle"
 
 allprojects {

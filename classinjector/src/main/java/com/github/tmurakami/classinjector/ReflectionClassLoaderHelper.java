@@ -43,18 +43,17 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
         ReflectionHelper h = reflectionHelper;
         Method m = definePackageMethod;
         h.setAccessible(m, true);
-        return (Package) invoke(
-                h,
-                m,
-                classLoader,
-                name,
-                specTitle,
-                specVersion,
-                specVendor,
-                implTitle,
-                implVersion,
-                implVendor,
-                sealBase);
+        return (Package) invoke(h,
+                                m,
+                                classLoader,
+                                name,
+                                specTitle,
+                                specVersion,
+                                specVendor,
+                                implTitle,
+                                implVersion,
+                                implVendor,
+                                sealBase);
     }
 
     @Override
@@ -82,25 +81,23 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
         Class<?> c = ClassLoader.class;
         ReflectionClassLoaderHelper o = new ReflectionClassLoaderHelper();
         o.parentField = parentField;
-        o.defineClassMethod = reflectionHelper.getDeclaredMethod(
-                c,
-                "defineClass",
-                String.class,
-                byte[].class,
-                int.class,
-                int.class,
-                ProtectionDomain.class);
-        o.definePackageMethod = reflectionHelper.getDeclaredMethod(
-                c,
-                "definePackage",
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                URL.class);
+        o.defineClassMethod = reflectionHelper.getDeclaredMethod(c,
+                                                                 "defineClass",
+                                                                 String.class,
+                                                                 byte[].class,
+                                                                 int.class,
+                                                                 int.class,
+                                                                 ProtectionDomain.class);
+        o.definePackageMethod = reflectionHelper.getDeclaredMethod(c,
+                                                                   "definePackage",
+                                                                   String.class,
+                                                                   String.class,
+                                                                   String.class,
+                                                                   String.class,
+                                                                   String.class,
+                                                                   String.class,
+                                                                   String.class,
+                                                                   URL.class);
         o.getPackageMethod = reflectionHelper.getDeclaredMethod(c, "getPackage", String.class);
         o.reflectionHelper = reflectionHelper;
         return o;

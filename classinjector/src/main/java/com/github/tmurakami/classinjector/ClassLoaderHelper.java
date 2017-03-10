@@ -44,8 +44,7 @@ abstract class ClassLoaderHelper {
         return classLoader.getParent();
     }
 
-    private static ClassLoaderHelper newInstance(ReflectionHelper reflectionHelper)
-            throws Exception {
+    private static ClassLoaderHelper newInstance(ReflectionHelper reflectionHelper) throws Exception {
         Field parentField = reflectionHelper.getDeclaredField(ClassLoader.class, "parent");
         try {
             reflectionHelper.setAccessible(parentField, true);
