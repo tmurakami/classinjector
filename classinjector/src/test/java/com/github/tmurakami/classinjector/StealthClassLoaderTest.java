@@ -15,7 +15,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class StealthClassLoaderTest {
 
     private StealthClassLoader testTarget;
