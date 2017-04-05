@@ -6,12 +6,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * The Class source is an object that obtains {@link ClassFile} objects.
+ * An object that obtains {@link ClassFile} objects.
  */
 public interface ClassSource {
 
     /**
-     * Gets class file for the given name.
+     * Finds the class file with the given name.
      *
      * @param className the class name
      * @return the class file, or null if not found

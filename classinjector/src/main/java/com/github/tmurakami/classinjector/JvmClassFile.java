@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * This class file is for Java VM.
+ * The {@link ClassFile} for Java VM.
  */
 @SuppressWarnings("WeakerAccess")
 public final class JvmClassFile implements ClassFile {

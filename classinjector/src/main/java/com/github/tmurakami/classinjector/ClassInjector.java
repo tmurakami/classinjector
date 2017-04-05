@@ -3,7 +3,7 @@ package com.github.tmurakami.classinjector;
 import javax.annotation.Nonnull;
 
 /**
- * The class injector is an object that injects classes into a class loader.
+ * An object that injects classes into a class loader.
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class ClassInjector {
@@ -12,7 +12,7 @@ public abstract class ClassInjector {
     }
 
     /**
-     * Inject classes into the given class loader.
+     * Injects classes into the given class loader.
      *
      * @param target the {@link ClassLoader} with a non-null parent loader
      */

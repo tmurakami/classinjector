@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import dalvik.system.DexFile;
 
 /**
- * This class file is for Android Dalvik/ART.
+ * The {@link ClassFile} for Android VM.
  */
 @SuppressWarnings("WeakerAccess")
 public final class DexClassFile implements ClassFile {

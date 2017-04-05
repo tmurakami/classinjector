@@ -3,7 +3,7 @@ package com.github.tmurakami.classinjector;
 import javax.annotation.Nonnull;
 
 /**
- * The class file is an object representing data making up a class.
+ * An object representing data making up a class.
  */
 public interface ClassFile {
 

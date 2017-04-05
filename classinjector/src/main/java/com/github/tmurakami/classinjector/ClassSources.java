@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * The Class sources is an object representing a group of {@link ClassSource} objects.
+ * An object representing a group of {@link ClassSource} objects.
  */
 @SuppressWarnings("WeakerAccess")
 public final class ClassSources implements ClassSource {

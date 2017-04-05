@@ -1,4 +1,4 @@
 /**
- * This package is for Android environment.
+ * Provides classes for Android environment.
  */
 package com.github.tmurakami.classinjector.android;
