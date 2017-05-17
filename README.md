@@ -1,7 +1,7 @@
 # ClassInjector
 
 [![CircleCI](https://circleci.com/gh/tmurakami/classinjector.svg?style=shield)](https://circleci.com/gh/tmurakami/classinjector)
-[![Release](https://jitpack.io/v/tmurakami/classinjector.svg)](https://jitpack.io/#tmurakami/classinjector)  
+[![Release](https://jitpack.io/v/tmurakami/classinjector.svg)](https://jitpack.io/#tmurakami/classinjector)<br>
 ![Java](https://img.shields.io/badge/Java-7%2B-blue.svg)
 ![Android](https://img.shields.io/badge/Android-2.3%2B-blue.svg)
 
