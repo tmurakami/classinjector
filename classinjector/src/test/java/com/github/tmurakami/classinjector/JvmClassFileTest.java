@@ -11,18 +11,18 @@ import static org.junit.Assert.assertSame;
 public class JvmClassFileTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void the_constructor_should_throw_an_IllegalArgumentException_if_the_class_name_is_empty() throws Exception {
+    public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() throws Exception {
         new JvmClassFile("", new byte[0]);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void the_constructor_should_throw_an_IllegalArgumentException_if_the_bytecode_is_empty() throws Exception {
+    public void constructor_should_throw_IllegalArgumentException_if_the_bytecode_is_empty() throws Exception {
         new JvmClassFile("foo.Bar", new byte[0]);
     }
 
     @SuppressWarnings("TryFinallyCanBeTryWithResources")
     @Test
-    public void the_toClass_method_should_return_the_Class_with_the_given_name() throws Exception {
+    public void toClass_should_return_the_Class_with_the_given_name() throws Exception {
         String name = C.class.getName();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         InputStream in = getClass().getResourceAsStream('/' + name.replace('.', '/') + ".class");

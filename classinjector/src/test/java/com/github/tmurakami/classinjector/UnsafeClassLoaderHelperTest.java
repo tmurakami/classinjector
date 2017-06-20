@@ -19,23 +19,23 @@ import static org.mockito.BDDMockito.then;
 public class UnsafeClassLoaderHelperTest {
 
     @InjectMocks
-    UnsafeClassLoaderHelper testTarget;
+    private UnsafeClassLoaderHelper testTarget;
 
     @Mock
-    Field parentField;
+    private Field parentField;
     @Mock
-    UnsafeWrapper unsafeWrapper;
+    private UnsafeWrapper unsafeWrapper;
     @Mock
-    ClassLoader classLoader;
+    private ClassLoader classLoader;
     @Mock
-    ProtectionDomain protectionDomain;
+    private ProtectionDomain protectionDomain;
     @Mock
-    URL url;
+    private URL url;
     @Mock
-    ClassLoader parent;
+    private ClassLoader parent;
 
     @Test
-    public void the_defineClass_method_should_simply_call_the_UnsafeWrapper_defineClass_method() throws Exception {
+    public void defineClass_should_simply_call_UnsafeWrapper_defineClass() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         given(unsafeWrapper.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
@@ -43,17 +43,17 @@ public class UnsafeClassLoaderHelperTest {
     }
 
     @Test
-    public void the_definePackage_method_should_return_null() throws Exception {
+    public void definePackage_should_return_null() throws Exception {
         assertNull(testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
     }
 
     @Test
-    public void the_getPackage_method_should_return_null() throws Exception {
+    public void getPackage_should_return_null() throws Exception {
         assertNull(testTarget.getPackage(classLoader, "foo"));
     }
 
     @Test
-    public void the_setParent_method_should_set_the_ClassLoader_parent_field_to_the_given_parent_via_the_UnsafeWrapper() throws Exception {
+    public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_UnsafeWrapper() throws Exception {
         given(unsafeWrapper.objectFieldOffset(parentField)).willReturn(1L);
         testTarget.setParent(classLoader, parent);
         then(unsafeWrapper).should().putObject(classLoader, 1L, parent);

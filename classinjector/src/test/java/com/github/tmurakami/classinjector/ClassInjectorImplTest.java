@@ -14,19 +14,19 @@ import static org.mockito.Mockito.mock;
 public class ClassInjectorImplTest {
 
     @InjectMocks
-    ClassInjectorImpl testTarget;
+    private ClassInjectorImpl testTarget;
 
     @Mock
-    ClassSource source;
+    private ClassSource source;
     @Mock
-    ClassLoaderFactory classLoaderFactory;
+    private ClassLoaderFactory classLoaderFactory;
     @Mock
-    ClassLoaderHelper classLoaderHelper;
+    private ClassLoaderHelper classLoaderHelper;
     @Mock
-    StealthClassLoader stealthClassLoader;
+    private StealthClassLoader stealthClassLoader;
 
     @Test
-    public void the_into_method_should_replace_the_parent_of_the_target_with_a_new_StealthClassLoader() throws Exception {
+    public void into_should_replace_the_parent_with_the_StealthClassLoader() throws Exception {
         ClassLoader target = mock(ClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
@@ -36,12 +36,12 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void the_into_method_should_throw_an_IllegalArgumentException_if_the_parent_of_the_target_is_null() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_parent_is_null() throws Exception {
         testTarget.into(mock(ClassLoader.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void the_into_method_should_throw_an_IllegalArgumentException_if_the_target_is_a_StealthClassLoader() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_target_is_a_StealthClassLoader() throws Exception {
         ClassLoader target = mock(StealthClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
@@ -49,7 +49,7 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void the_into_method_should_throw_an_IllegalArgumentException_if_the_parent_of_the_target_is_a_StealthClassLoader() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_parent_is_a_StealthClassLoader() throws Exception {
         ClassLoader target = mock(ClassLoader.class);
         ClassLoader parent = mock(StealthClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);

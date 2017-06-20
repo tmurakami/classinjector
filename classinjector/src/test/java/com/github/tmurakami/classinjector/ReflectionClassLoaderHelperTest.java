@@ -21,31 +21,31 @@ import static org.mockito.Mockito.inOrder;
 public class ReflectionClassLoaderHelperTest {
 
     @InjectMocks
-    ReflectionClassLoaderHelper testTarget;
+    private ReflectionClassLoaderHelper testTarget;
 
     @Mock
-    Field parentField;
+    private Field parentField;
     @Mock(name = "defineClassMethod")
-    Method defineClassMethod;
+    private Method defineClassMethod;
     @Mock(name = "definePackageMethod")
-    Method definePackageMethod;
+    private Method definePackageMethod;
     @Mock(name = "getPackageMethod")
-    Method getPackageMethod;
+    private Method getPackageMethod;
     @Mock
-    ReflectionHelper reflectionHelper;
+    private ReflectionHelper reflectionHelper;
     @Mock
-    ClassLoader classLoader;
+    private ClassLoader classLoader;
     @Mock
-    ProtectionDomain protectionDomain;
+    private ProtectionDomain protectionDomain;
     @Mock
-    URL url;
+    private URL url;
     @Mock
-    Package pkg;
+    private Package pkg;
     @Mock
-    ClassLoader parent;
+    private ClassLoader parent;
 
     @Test
-    public void the_defineClass_method_should_call_the_ClassLoader_defineClass_method_via_the_ReflectionHelper() throws Exception {
+    public void defineClass_should_call_ClassLoader_defineClass_via_ReflectionHelper() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         given(reflectionHelper.invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
@@ -56,7 +56,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void the_definePackage_method_should_call_the_ClassLoader_definePackage_method_via_the_ReflectionHelper() throws Exception {
+    public void definePackage_should_call_ClassLoader_definePackage_via_ReflectionHelper() throws Exception {
         given(reflectionHelper.invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
         assertSame(pkg, testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -65,7 +65,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void the_getPackage_method_should_call_the_ClassLoader_getPackage_method_via_the_ReflectionHelper() throws Exception {
+    public void getPackage_should_call_ClassLoader_getPackage_via_ReflectionHelper() throws Exception {
         given(reflectionHelper.invoke(getPackageMethod, classLoader, "foo")).willReturn(pkg);
         assertSame(pkg, testTarget.getPackage(classLoader, "foo"));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -74,7 +74,7 @@ public class ReflectionClassLoaderHelperTest {
     }
 
     @Test
-    public void the_setParent_method_should_set_the_ClassLoader_parent_field_to_the_given_parent_via_the_ReflectionHelper() throws Exception {
+    public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_ReflectionHelper() throws Exception {
         testTarget.setParent(classLoader, parent);
         InOrder inOrder = inOrder(reflectionHelper);
         then(reflectionHelper).should(inOrder).setAccessible(parentField, true);
