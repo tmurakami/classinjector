@@ -5,15 +5,15 @@ import javax.annotation.Nonnull;
 final class ClassInjectorImpl extends ClassInjector {
 
     private final ClassSource source;
-    private final ClassLoaderFactory classLoaderFactory;
     private final ClassLoaderHelper classLoaderHelper;
+    private final InjectorClassLoaderFactory injectorClassLoaderFactory;
 
     ClassInjectorImpl(ClassSource source,
-                      ClassLoaderFactory classLoaderFactory,
-                      ClassLoaderHelper classLoaderHelper) {
+                      ClassLoaderHelper classLoaderHelper,
+                      InjectorClassLoaderFactory injectorClassLoaderFactory) {
         this.source = source;
-        this.classLoaderFactory = classLoaderFactory;
         this.classLoaderHelper = classLoaderHelper;
+        this.injectorClassLoaderFactory = injectorClassLoaderFactory;
     }
 
     @Override
@@ -23,10 +23,10 @@ final class ClassInjectorImpl extends ClassInjector {
         if (parent == null) {
             throw new IllegalArgumentException("The parent of 'target' is null");
         }
-        if (target instanceof StealthClassLoader || parent instanceof StealthClassLoader) {
+        if (target instanceof InjectorClassLoader || parent instanceof InjectorClassLoader) {
             throw new IllegalArgumentException("'target' has already been injected");
         }
-        h.setParent(target, classLoaderFactory.newClassLoader(parent, source, target));
+        h.setParent(target, injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target));
     }
 
 }

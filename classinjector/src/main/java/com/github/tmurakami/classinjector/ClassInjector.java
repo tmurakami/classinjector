@@ -27,7 +27,7 @@ public abstract class ClassInjector {
      */
     @Nonnull
     public static ClassInjector from(@Nonnull ClassSource source) {
-        return new ClassInjectorImpl(source, ClassLoaderFactory.INSTANCE, ClassLoaderHelper.INSTANCE);
+        return new ClassInjectorImpl(source, ClassLoaderHelper.INSTANCE, InjectorClassLoaderFactory.INSTANCE);
     }
 
 }

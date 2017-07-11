@@ -19,18 +19,18 @@ public class ClassInjectorImplTest {
     @Mock
     private ClassSource source;
     @Mock
-    private ClassLoaderFactory classLoaderFactory;
-    @Mock
     private ClassLoaderHelper classLoaderHelper;
     @Mock
-    private StealthClassLoader stealthClassLoader;
+    private InjectorClassLoaderFactory injectorClassLoaderFactory;
+    @Mock
+    private InjectorClassLoader stealthClassLoader;
 
     @Test
-    public void into_should_replace_the_parent_with_the_StealthClassLoader() throws Exception {
+    public void into_should_replace_the_parent_with_the_InjectorClassLoader() throws Exception {
         ClassLoader target = mock(ClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
-        given(classLoaderFactory.newClassLoader(parent, source, target)).willReturn(stealthClassLoader);
+        given(injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target)).willReturn(stealthClassLoader);
         testTarget.into(target);
         then(classLoaderHelper).should().setParent(target, stealthClassLoader);
     }
@@ -41,17 +41,17 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_target_is_a_StealthClassLoader() throws Exception {
-        ClassLoader target = mock(StealthClassLoader.class);
+    public void into_should_throw_IllegalArgumentException_if_the_target_is_an_InjectorClassLoader() throws Exception {
+        ClassLoader target = mock(InjectorClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
         testTarget.into(target);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_parent_is_a_StealthClassLoader() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_parent_is_an_InjectorClassLoader() throws Exception {
         ClassLoader target = mock(ClassLoader.class);
-        ClassLoader parent = mock(StealthClassLoader.class);
+        ClassLoader parent = mock(InjectorClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
         testTarget.into(target);
     }

@@ -16,9 +16,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
-public class StealthClassLoaderTest {
+public class InjectorClassLoaderTest {
 
-    private StealthClassLoader testTarget;
+    private InjectorClassLoader testTarget;
 
     @Mock
     private ClassLoader parent;
@@ -31,7 +31,7 @@ public class StealthClassLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        testTarget = new StealthClassLoader(parent, source, injectionTarget);
+        testTarget = new InjectorClassLoader(parent, source, injectionTarget);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class StealthClassLoaderTest {
 
     @Test(expected = ClassNotFoundException.class)
     public void findClass_should_throw_ClassNotFoundException_if_the_given_name_belongs_to_my_package() throws Exception {
-        testTarget.findClass(StealthClassLoaderTest.class.getName());
+        testTarget.findClass(InjectorClassLoaderTest.class.getName());
     }
 
     @Test(expected = ClassNotFoundException.class)
