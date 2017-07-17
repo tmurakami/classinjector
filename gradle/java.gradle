@@ -1,2 +1,4 @@
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
+
 apply from: "$rootDir/gradle/jacoco.gradle"
 apply from: "$rootDir/gradle/javadoc.gradle"
