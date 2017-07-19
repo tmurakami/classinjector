@@ -2,6 +2,7 @@ import com.android.ddmlib.DdmPreferences
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {

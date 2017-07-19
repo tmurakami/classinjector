@@ -6,6 +6,7 @@ apply from: "$rootDir/gradle/version.gradle"
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
