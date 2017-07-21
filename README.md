@@ -24,6 +24,7 @@ ClassInjector.from(new ClassSource() {
 ```
 
 For Android, use DexClassFile instead of JvmClassFile.
+
 ```java
 // Get a Context object.
 final Context context = ...
@@ -51,6 +52,7 @@ ClassInjector.from(new ClassSource() {
 ## Installation
 
 First, add the [JitPack](https://jitpack.io/) repository to your build.gradle.
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -58,6 +60,7 @@ repositories {
 ```
 
 And then, for Java (7 or later):
+
 ```groovy
 dependencies {
     compile 'com.github.tmurakami.classinjector:classinjector:x.y.z'
@@ -66,6 +69,7 @@ dependencies {
 ```
 
 Or for Android (2.3 or later):
+
 ```groovy
 android {
     defaultConfig {
