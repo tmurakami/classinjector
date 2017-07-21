@@ -7,11 +7,6 @@ import java.lang.reflect.Method;
 
 final class ReflectionHelper {
 
-    static final ReflectionHelper INSTANCE = new ReflectionHelper();
-
-    private ReflectionHelper() {
-    }
-
     Object get(Field f, Object o) throws IllegalAccessException {
         return f.get(o);
     }
@@ -34,7 +29,8 @@ final class ReflectionHelper {
         f.set(o, value);
     }
 
-    void setAccessible(AccessibleObject o, boolean accessible) {
+    void setAccessible(AccessibleObject o,
+                       @SuppressWarnings("SameParameterValue") boolean accessible) {
         o.setAccessible(accessible);
     }
 

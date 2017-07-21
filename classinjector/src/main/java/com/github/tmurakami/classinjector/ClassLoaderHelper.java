@@ -10,7 +10,7 @@ abstract class ClassLoaderHelper {
 
     static {
         try {
-            INSTANCE = newInstance(ReflectionHelper.INSTANCE);
+            INSTANCE = newInstance(new ReflectionHelper());
         } catch (Exception e) {
             throw new IllegalStateException("This Java version is not supported", e);
         }
@@ -22,7 +22,7 @@ abstract class ClassLoaderHelper {
     abstract Class defineClass(ClassLoader classLoader,
                                String name,
                                byte[] b,
-                               int off,
+                               @SuppressWarnings("SameParameterValue") int off,
                                int len,
                                ProtectionDomain protectionDomain) throws ClassFormatError;
 

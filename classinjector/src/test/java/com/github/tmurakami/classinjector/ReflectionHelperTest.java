@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReflectionHelperTest {
 
-    private final ReflectionHelper reflectionHelper = ReflectionHelper.INSTANCE;
+    private final ReflectionHelper reflectionHelper = new ReflectionHelper();
 
     @Test
     public void get_should_simply_call_Field_get() throws Exception {
