@@ -7,16 +7,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
-import dalvik.system.DexFile;
-
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
 
+@SuppressWarnings("deprecation")
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class DexClassFileTest {
 
     @Mock
-    private DexFile dexFile;
+    private dalvik.system.DexFile dexFile;
     @Mock
     private ClassLoader classLoader;
 

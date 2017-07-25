@@ -6,16 +6,14 @@ import com.github.tmurakami.classinjector.ClassFile;
 
 import java.util.Enumeration;
 
-import dalvik.system.DexFile;
-
 /**
  * The {@link ClassFile} for Android VM.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "deprecation"})
 public final class DexClassFile implements ClassFile {
 
     private final String className;
-    private final DexFile dexFile;
+    private final dalvik.system.DexFile dexFile;
 
     /**
      * Instantiates a new instance.
@@ -23,7 +21,7 @@ public final class DexClassFile implements ClassFile {
      * @param className the class name
      * @param dexFile   the dex file including the data for the given class name
      */
-    public DexClassFile(@NonNull String className, @NonNull DexFile dexFile) {
+    public DexClassFile(@NonNull String className, @NonNull dalvik.system.DexFile dexFile) {
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
         }
