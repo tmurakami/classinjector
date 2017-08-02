@@ -6,9 +6,18 @@ import javax.annotation.Nonnull;
  * An object that injects classes into a class loader.
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class ClassInjector {
+public final class ClassInjector {
 
-    ClassInjector() {
+    private final ClassSource source;
+    private final ClassLoaderHelper classLoaderHelper;
+    private final InjectorClassLoaderFactory injectorClassLoaderFactory;
+
+    ClassInjector(ClassSource source,
+                  ClassLoaderHelper classLoaderHelper,
+                  InjectorClassLoaderFactory injectorClassLoaderFactory) {
+        this.source = source;
+        this.classLoaderHelper = classLoaderHelper;
+        this.injectorClassLoaderFactory = injectorClassLoaderFactory;
     }
 
     /**
@@ -16,7 +25,17 @@ public abstract class ClassInjector {
      *
      * @param target the {@link ClassLoader} with a non-null parent loader
      */
-    public abstract void into(@Nonnull ClassLoader target);
+    public void into(@Nonnull ClassLoader target) {
+        ClassLoaderHelper h = classLoaderHelper;
+        ClassLoader parent = h.getParent(target);
+        if (parent == null) {
+            throw new IllegalArgumentException("The parent of 'target' is null");
+        }
+        if (target instanceof InjectorClassLoader || parent instanceof InjectorClassLoader) {
+            throw new IllegalArgumentException("'target' has already been injected");
+        }
+        h.setParent(target, injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target));
+    }
 
     /**
      * Instantiates a new instance.
@@ -27,9 +46,7 @@ public abstract class ClassInjector {
      */
     @Nonnull
     public static ClassInjector from(@Nonnull ClassSource source) {
-        return new ClassInjectorImpl(source,
-                                     ClassLoaderHelper.INSTANCE,
-                                     new InjectorClassLoaderFactory());
+        return new ClassInjector(source, ClassLoaderHelper.INSTANCE, new InjectorClassLoaderFactory());
     }
 
 }
