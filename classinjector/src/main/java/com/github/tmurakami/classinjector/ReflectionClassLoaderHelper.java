@@ -76,7 +76,8 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
         }
     }
 
-    static ReflectionClassLoaderHelper create(Field parentField, ReflectionHelper reflectionHelper)
+    static ReflectionClassLoaderHelper newInstance(Field parentField,
+                                                   ReflectionHelper reflectionHelper)
             throws NoSuchMethodException {
         Class<?> c = ClassLoader.class;
         ReflectionClassLoaderHelper o = new ReflectionClassLoaderHelper();
