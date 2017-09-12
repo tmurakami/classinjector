@@ -68,6 +68,8 @@ dependencies {
 }
 ```
 
+[![Release](https://jitpack.io/v/tmurakami/classinjector.svg)](https://jitpack.io/#tmurakami/classinjector)
+
 Or for Android (2.3 or later):
 
 ```groovy
