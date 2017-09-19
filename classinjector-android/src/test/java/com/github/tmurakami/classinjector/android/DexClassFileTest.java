@@ -16,8 +16,6 @@ public class DexClassFileTest {
 
     @Mock
     private dalvik.system.DexFile dexFile;
-    @Mock
-    private ClassLoader classLoader;
 
     @Test(expected = IllegalArgumentException.class)
     public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() throws Exception {
@@ -28,6 +26,8 @@ public class DexClassFileTest {
     public void toClass_should_return_the_Class_with_the_given_name() throws Exception {
         Class<?> c = getClass();
         given(dexFile.entries()).willReturn(Collections.enumeration(Collections.singleton("foo.Bar")));
+        ClassLoader classLoader = new ClassLoader() {
+        };
         given(dexFile.loadClass("foo.Bar", classLoader)).willReturn(c);
         assertSame(c, new DexClassFile("foo.Bar", dexFile).toClass(classLoader));
     }

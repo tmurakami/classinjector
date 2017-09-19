@@ -21,17 +21,17 @@ public class InjectorClassLoaderTest {
     private InjectorClassLoader testTarget;
 
     @Mock
-    private ClassLoader parent;
-    @Mock
     private ClassSource source;
-    @Mock
-    private ClassLoader injectionTarget;
     @Mock
     private ClassFile classFile;
 
+    private ClassLoader injectionTarget = new ClassLoader() {
+    };
+
     @Before
     public void setUp() throws Exception {
-        testTarget = new InjectorClassLoader(parent, source, injectionTarget);
+        testTarget = new InjectorClassLoader(new ClassLoader() {
+        }, source, injectionTarget);
     }
 
     @Test

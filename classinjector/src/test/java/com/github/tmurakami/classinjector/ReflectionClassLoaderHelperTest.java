@@ -34,18 +34,16 @@ public class ReflectionClassLoaderHelperTest {
     @Mock
     private ReflectionHelper reflectionHelper;
     @Mock
-    private ClassLoader classLoader;
-    @Mock
     private ProtectionDomain protectionDomain;
     @Mock
     private URL url;
     @Mock
     private Package pkg;
-    @Mock
-    private ClassLoader parent;
 
     @Test
     public void defineClass_should_call_ClassLoader_defineClass_via_ReflectionHelper() throws Exception {
+        ClassLoader classLoader = new ClassLoader() {
+        };
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         given(reflectionHelper.invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain)).willReturn(c);
@@ -57,6 +55,8 @@ public class ReflectionClassLoaderHelperTest {
 
     @Test
     public void definePackage_should_call_ClassLoader_definePackage_via_ReflectionHelper() throws Exception {
+        ClassLoader classLoader = new ClassLoader() {
+        };
         given(reflectionHelper.invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
         assertSame(pkg, testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -66,6 +66,8 @@ public class ReflectionClassLoaderHelperTest {
 
     @Test
     public void getPackage_should_call_ClassLoader_getPackage_via_ReflectionHelper() throws Exception {
+        ClassLoader classLoader = new ClassLoader() {
+        };
         given(reflectionHelper.invoke(getPackageMethod, classLoader, "foo")).willReturn(pkg);
         assertSame(pkg, testTarget.getPackage(classLoader, "foo"));
         InOrder inOrder = inOrder(reflectionHelper);
@@ -75,6 +77,10 @@ public class ReflectionClassLoaderHelperTest {
 
     @Test
     public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_ReflectionHelper() throws Exception {
+        ClassLoader classLoader = new ClassLoader() {
+        };
+        ClassLoader parent = new ClassLoader() {
+        };
         testTarget.setParent(classLoader, parent);
         InOrder inOrder = inOrder(reflectionHelper);
         then(reflectionHelper).should(inOrder).setAccessible(parentField, true);

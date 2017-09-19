@@ -26,35 +26,39 @@ public class UnsafeClassLoaderHelperTest {
     @Mock
     private UnsafeWrapper unsafeWrapper;
     @Mock
-    private ClassLoader classLoader;
-    @Mock
     private ProtectionDomain protectionDomain;
     @Mock
     private URL url;
-    @Mock
-    private ClassLoader parent;
 
     @Test
     public void defineClass_should_simply_call_UnsafeWrapper_defineClass() throws Exception {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
+        ClassLoader classLoader = new ClassLoader() {
+        };
         given(unsafeWrapper.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
         assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain));
     }
 
     @Test
     public void definePackage_should_return_null() throws Exception {
-        assertNull(testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
+        assertNull(testTarget.definePackage(new ClassLoader() {
+        }, "foo", "a", "b", "c", "d", "e", "f", url));
     }
 
     @Test
     public void getPackage_should_return_null() throws Exception {
-        assertNull(testTarget.getPackage(classLoader, "foo"));
+        assertNull(testTarget.getPackage(new ClassLoader() {
+        }, "foo"));
     }
 
     @Test
     public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_UnsafeWrapper() throws Exception {
         given(unsafeWrapper.objectFieldOffset(parentField)).willReturn(1L);
+        ClassLoader classLoader = new ClassLoader() {
+        };
+        ClassLoader parent = new ClassLoader() {
+        };
         testTarget.setParent(classLoader, parent);
         then(unsafeWrapper).should().putObject(classLoader, 1L, parent);
     }
