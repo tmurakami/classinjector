@@ -23,3 +23,5 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+jar.manifest.attributes 'Automatic-Module-Name': 'com.github.tmurakami.classinjector'
