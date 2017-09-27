@@ -31,4 +31,4 @@ ext.deps = [classinjector      : project(':classinjector'),
             junit              : 'junit:junit:4.12',
             mockito            : 'org.mockito:mockito-inline:2.10.0',
             rules              : 'com.android.support.test:rules:1.0.1',
-            support_annotations: 'com.android.support:support-annotations:26.0.2',]
+            support_annotations: 'com.android.support:support-annotations:26.1.0',]
