@@ -7,8 +7,7 @@ machine:
     version: openjdk8
 dependencies:
   pre:
-    - mkdir $ANDROID_HOME/licenses
-    - echo 8933bad161af4178b1185d1a37fbf41ea5269c55 > $ANDROID_HOME/licenses/android-sdk-license
+    - (echo y; echo y; echo y; echo y; echo y; echo y) | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 test:
   pre:
     - emulator -avd circleci-android22 -no-audio -no-window:
