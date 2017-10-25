@@ -5,8 +5,8 @@ apply from: "$rootDir/gradle/java.gradle"
 
 dependencies {
     compileOnly deps.jsr305
-    testCompile deps.junit
-    testCompile deps.mockito
+    testImplementation deps.junit
+    testImplementation deps.mockito
 }
 
 task sourcesJar(type: Jar) {
