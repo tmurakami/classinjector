@@ -11,10 +11,10 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
-public class ClassInjectorTest {
+public class ClassInjectorImplTest {
 
     @InjectMocks
-    private ClassInjector testTarget;
+    private ClassInjectorImpl testTarget;
 
     @Mock
     private ClassSource source;
