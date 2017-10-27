@@ -18,8 +18,7 @@ apply from: "$rootDir/gradle/android.gradle"
 
 android {
     defaultConfig {
-        //noinspection MinSdkTooLow
-        minSdkVersion 9
+        minSdkVersion 14
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     DdmPreferences.setTimeOut 60000
