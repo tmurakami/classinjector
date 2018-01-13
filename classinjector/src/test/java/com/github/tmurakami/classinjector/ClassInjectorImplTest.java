@@ -26,7 +26,7 @@ public class ClassInjectorImplTest {
     private InjectorClassLoader stealthClassLoader;
 
     @Test
-    public void into_should_replace_the_parent_with_the_InjectorClassLoader() throws Exception {
+    public void into_should_replace_the_parent_with_the_InjectorClassLoader() {
         ClassLoader target = mock(ClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
@@ -36,12 +36,12 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_parent_is_null() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_parent_is_null() {
         testTarget.into(mock(ClassLoader.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_target_is_an_InjectorClassLoader() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_target_is_an_InjectorClassLoader() {
         ClassLoader target = mock(InjectorClassLoader.class);
         ClassLoader parent = mock(ClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);
@@ -49,7 +49,7 @@ public class ClassInjectorImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_parent_is_an_InjectorClassLoader() throws Exception {
+    public void into_should_throw_IllegalArgumentException_if_the_parent_is_an_InjectorClassLoader() {
         ClassLoader target = mock(ClassLoader.class);
         ClassLoader parent = mock(InjectorClassLoader.class);
         given(classLoaderHelper.getParent(target)).willReturn(parent);

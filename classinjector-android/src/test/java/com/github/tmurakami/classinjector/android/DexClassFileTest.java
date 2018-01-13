@@ -18,12 +18,12 @@ public class DexClassFileTest {
     private dalvik.system.DexFile dexFile;
 
     @Test(expected = IllegalArgumentException.class)
-    public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() throws Exception {
+    public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() {
         new DexClassFile("", dexFile);
     }
 
     @Test
-    public void toClass_should_return_the_Class_with_the_given_name() throws Exception {
+    public void toClass_should_return_the_Class_with_the_given_name() {
         Class<?> c = getClass();
         given(dexFile.entries()).willReturn(Collections.enumeration(Collections.singleton("foo.Bar")));
         ClassLoader classLoader = new ClassLoader() {

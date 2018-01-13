@@ -11,12 +11,12 @@ import static org.junit.Assert.assertSame;
 public class JvmClassFileTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() throws Exception {
+    public void constructor_should_throw_IllegalArgumentException_if_the_className_is_empty() {
         new JvmClassFile("", new byte[0]);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void constructor_should_throw_IllegalArgumentException_if_the_bytecode_is_empty() throws Exception {
+    public void constructor_should_throw_IllegalArgumentException_if_the_bytecode_is_empty() {
         new JvmClassFile("foo.Bar", new byte[0]);
     }
 

@@ -31,7 +31,7 @@ public class UnsafeClassLoaderHelperTest {
     private URL url;
 
     @Test
-    public void defineClass_should_simply_call_UnsafeWrapper_defineClass() throws Exception {
+    public void defineClass_should_simply_call_UnsafeWrapper_defineClass() {
         byte[] bytes = "abc".getBytes();
         Class<?> c = getClass();
         ClassLoader classLoader = new ClassLoader() {
@@ -41,19 +41,19 @@ public class UnsafeClassLoaderHelperTest {
     }
 
     @Test
-    public void definePackage_should_return_null() throws Exception {
+    public void definePackage_should_return_null() {
         assertNull(testTarget.definePackage(new ClassLoader() {
         }, "foo", "a", "b", "c", "d", "e", "f", url));
     }
 
     @Test
-    public void getPackage_should_return_null() throws Exception {
+    public void getPackage_should_return_null() {
         assertNull(testTarget.getPackage(new ClassLoader() {
         }, "foo"));
     }
 
     @Test
-    public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_UnsafeWrapper() throws Exception {
+    public void setParent_should_set_the_given_ClassLoader_to_ClassLoader_parent_via_UnsafeWrapper() {
         given(unsafeWrapper.objectFieldOffset(parentField)).willReturn(1L);
         ClassLoader classLoader = new ClassLoader() {
         };

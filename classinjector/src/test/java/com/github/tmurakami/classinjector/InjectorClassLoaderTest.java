@@ -29,7 +29,7 @@ public class InjectorClassLoaderTest {
     };
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testTarget = new InjectorClassLoader(new ClassLoader() {
         }, source, injectionTarget);
     }
