@@ -18,15 +18,15 @@ final class ClassInjectorImpl extends ClassInjector {
 
     @Override
     public void into(@Nonnull ClassLoader target) {
-        ClassLoaderHelper h = classLoaderHelper;
-        ClassLoader parent = h.getParent(target);
+        ClassLoader parent = target.getParent();
         if (parent == null) {
             throw new IllegalArgumentException("The parent of 'target' is null");
         }
         if (target instanceof InjectorClassLoader || parent instanceof InjectorClassLoader) {
             throw new IllegalArgumentException("'target' has already been injected");
         }
-        h.setParent(target, injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target));
+        ClassLoader cl = injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target);
+        classLoaderHelper.setParent(target, cl);
     }
 
 }

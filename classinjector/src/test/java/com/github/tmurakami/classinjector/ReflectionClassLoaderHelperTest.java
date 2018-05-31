@@ -25,12 +25,8 @@ public class ReflectionClassLoaderHelperTest {
 
     @Mock
     private Field parentField;
-    @Mock(name = "defineClassMethod")
+    @Mock
     private Method defineClassMethod;
-    @Mock(name = "definePackageMethod")
-    private Method definePackageMethod;
-    @Mock(name = "getPackageMethod")
-    private Method getPackageMethod;
     @Mock
     private ReflectionHelper reflectionHelper;
     @Mock
@@ -51,28 +47,6 @@ public class ReflectionClassLoaderHelperTest {
         InOrder inOrder = inOrder(reflectionHelper);
         then(reflectionHelper).should(inOrder).setAccessible(defineClassMethod, true);
         then(reflectionHelper).should(inOrder).invoke(defineClassMethod, classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain);
-    }
-
-    @Test
-    public void definePackage_should_call_ClassLoader_definePackage_via_ReflectionHelper() throws Exception {
-        ClassLoader classLoader = new ClassLoader() {
-        };
-        given(reflectionHelper.invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url)).willReturn(pkg);
-        assertSame(pkg, testTarget.definePackage(classLoader, "foo", "a", "b", "c", "d", "e", "f", url));
-        InOrder inOrder = inOrder(reflectionHelper);
-        then(reflectionHelper).should(inOrder).setAccessible(definePackageMethod, true);
-        then(reflectionHelper).should(inOrder).invoke(definePackageMethod, classLoader, "foo", "a", "b", "c", "d", "e", "f", url);
-    }
-
-    @Test
-    public void getPackage_should_call_ClassLoader_getPackage_via_ReflectionHelper() throws Exception {
-        ClassLoader classLoader = new ClassLoader() {
-        };
-        given(reflectionHelper.invoke(getPackageMethod, classLoader, "foo")).willReturn(pkg);
-        assertSame(pkg, testTarget.getPackage(classLoader, "foo"));
-        InOrder inOrder = inOrder(reflectionHelper);
-        then(reflectionHelper).should(inOrder).setAccessible(getPackageMethod, true);
-        then(reflectionHelper).should(inOrder).invoke(getPackageMethod, classLoader, "foo");
     }
 
     @Test

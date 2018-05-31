@@ -1,7 +1,6 @@
 package com.github.tmurakami.classinjector;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.security.ProtectionDomain;
 
 final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
@@ -22,24 +21,6 @@ final class UnsafeClassLoaderHelper extends ClassLoaderHelper {
                       int len,
                       ProtectionDomain protectionDomain) throws ClassFormatError {
         return unsafeWrapper.defineClass(name, b, off, len, classLoader, protectionDomain);
-    }
-
-    @Override
-    Package definePackage(ClassLoader classLoader,
-                          String name,
-                          String specTitle,
-                          String specVersion,
-                          String specVendor,
-                          String implTitle,
-                          String implVersion,
-                          String implVendor,
-                          URL sealBase) throws IllegalArgumentException {
-        return null;
-    }
-
-    @Override
-    Package getPackage(ClassLoader classLoader, String name) {
-        return null;
     }
 
     @Override

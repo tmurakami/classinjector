@@ -2,7 +2,6 @@ package com.github.tmurakami.classinjector;
 
 import java.security.ProtectionDomain;
 import java.util.Arrays;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -61,20 +60,13 @@ public final class JvmClassFile implements ClassFile {
     @Nonnull
     @Override
     public Class toClass(@Nonnull ClassLoader classLoader) {
-        String name = className;
-        ClassLoaderHelper h = classLoaderHelper;
-        int dot = name.lastIndexOf('.');
-        if (dot > -1) {
-            String pkg = name.substring(0, dot);
-            if (h.getPackage(classLoader, pkg) == null) {
-                try {
-                    h.definePackage(classLoader, pkg, null, null, null, null, null, null, null);
-                } catch (IllegalArgumentException ignored) {
-                }
-            }
-        }
         byte[] b = bytecode;
-        return h.defineClass(classLoader, name, b, 0, b.length, protectionDomain);
+        return classLoaderHelper.defineClass(classLoader,
+                                             className,
+                                             b,
+                                             0,
+                                             b.length,
+                                             protectionDomain);
     }
 
 }

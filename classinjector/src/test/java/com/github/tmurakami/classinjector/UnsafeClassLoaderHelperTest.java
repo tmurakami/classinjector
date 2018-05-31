@@ -7,10 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.security.ProtectionDomain;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -27,8 +25,6 @@ public class UnsafeClassLoaderHelperTest {
     private UnsafeWrapper unsafeWrapper;
     @Mock
     private ProtectionDomain protectionDomain;
-    @Mock
-    private URL url;
 
     @Test
     public void defineClass_should_simply_call_UnsafeWrapper_defineClass() {
@@ -38,18 +34,6 @@ public class UnsafeClassLoaderHelperTest {
         };
         given(unsafeWrapper.defineClass("foo.Bar", bytes, 0, bytes.length, classLoader, protectionDomain)).willReturn(c);
         assertSame(c, testTarget.defineClass(classLoader, "foo.Bar", bytes, 0, bytes.length, protectionDomain));
-    }
-
-    @Test
-    public void definePackage_should_return_null() {
-        assertNull(testTarget.definePackage(new ClassLoader() {
-        }, "foo", "a", "b", "c", "d", "e", "f", url));
-    }
-
-    @Test
-    public void getPackage_should_return_null() {
-        assertNull(testTarget.getPackage(new ClassLoader() {
-        }, "foo"));
     }
 
     @Test

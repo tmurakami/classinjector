@@ -3,15 +3,12 @@ package com.github.tmurakami.classinjector;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.security.ProtectionDomain;
 
 final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
 
     private Field parentField;
     private Method defineClassMethod;
-    private Method definePackageMethod;
-    private Method getPackageMethod;
     private ReflectionHelper reflectionHelper;
 
     private ReflectionClassLoaderHelper() {
@@ -28,40 +25,6 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
         Method m = defineClassMethod;
         h.setAccessible(m, true);
         return (Class) invoke(h, m, classLoader, name, b, off, len, protectionDomain);
-    }
-
-    @Override
-    Package definePackage(ClassLoader classLoader,
-                          String name,
-                          String specTitle,
-                          String specVersion,
-                          String specVendor,
-                          String implTitle,
-                          String implVersion,
-                          String implVendor,
-                          URL sealBase) throws IllegalArgumentException {
-        ReflectionHelper h = reflectionHelper;
-        Method m = definePackageMethod;
-        h.setAccessible(m, true);
-        return (Package) invoke(h,
-                                m,
-                                classLoader,
-                                name,
-                                specTitle,
-                                specVersion,
-                                specVendor,
-                                implTitle,
-                                implVersion,
-                                implVendor,
-                                sealBase);
-    }
-
-    @Override
-    Package getPackage(ClassLoader classLoader, String name) {
-        ReflectionHelper h = reflectionHelper;
-        Method m = getPackageMethod;
-        h.setAccessible(m, true);
-        return (Package) invoke(h, m, classLoader, name);
     }
 
     @Override
@@ -89,17 +52,6 @@ final class ReflectionClassLoaderHelper extends ClassLoaderHelper {
                                                                  int.class,
                                                                  int.class,
                                                                  ProtectionDomain.class);
-        o.definePackageMethod = reflectionHelper.getDeclaredMethod(c,
-                                                                   "definePackage",
-                                                                   String.class,
-                                                                   String.class,
-                                                                   String.class,
-                                                                   String.class,
-                                                                   String.class,
-                                                                   String.class,
-                                                                   String.class,
-                                                                   URL.class);
-        o.getPackageMethod = reflectionHelper.getDeclaredMethod(c, "getPackage", String.class);
         o.reflectionHelper = reflectionHelper;
         return o;
     }
