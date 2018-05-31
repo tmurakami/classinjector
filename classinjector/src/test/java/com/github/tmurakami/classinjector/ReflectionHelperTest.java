@@ -51,6 +51,7 @@ public class ReflectionHelperTest {
         assertEquals("1", c.value);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void setAccessible_should_simply_call_AccessibleObject_setAccessible() throws Exception {
         Field f = C.class.getDeclaredField("value");
