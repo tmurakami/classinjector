@@ -1,9 +1,8 @@
 package com.github.tmurakami.classinjector;
 
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

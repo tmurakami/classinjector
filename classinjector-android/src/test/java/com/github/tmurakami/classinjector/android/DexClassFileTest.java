@@ -1,11 +1,10 @@
 package com.github.tmurakami.classinjector.android;
 
+import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.Collections;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;

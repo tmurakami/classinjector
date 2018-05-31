@@ -1,9 +1,8 @@
 package com.github.tmurakami.classinjector;
 
-import org.junit.Test;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

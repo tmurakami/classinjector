@@ -1,10 +1,8 @@
 package com.github.tmurakami.classinjector.android;
 
-import android.support.annotation.NonNull;
-
-import com.github.tmurakami.classinjector.ClassFile;
-
 import java.util.Enumeration;
+import android.support.annotation.NonNull;
+import com.github.tmurakami.classinjector.ClassFile;
 
 /**
  * The {@link ClassFile} for Android VM.

@@ -2,7 +2,6 @@ package com.github.tmurakami.classinjector.android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;

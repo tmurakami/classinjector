@@ -1,7 +1,6 @@
 package com.github.tmurakami.classinjector;
 
 import java.io.IOException;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

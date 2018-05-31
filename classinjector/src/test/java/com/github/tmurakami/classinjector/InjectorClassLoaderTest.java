@@ -1,5 +1,7 @@
 package com.github.tmurakami.classinjector;
 
+import java.io.IOError;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,9 +9,6 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-
-import java.io.IOError;
-import java.io.IOException;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;

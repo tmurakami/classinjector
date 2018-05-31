@@ -3,7 +3,6 @@ package com.github.tmurakami.classinjector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

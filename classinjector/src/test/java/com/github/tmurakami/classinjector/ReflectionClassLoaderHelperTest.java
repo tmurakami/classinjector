@@ -1,16 +1,15 @@
 package com.github.tmurakami.classinjector;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.security.ProtectionDomain;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.security.ProtectionDomain;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
