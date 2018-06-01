@@ -41,7 +41,8 @@ public class InjectorClassLoaderTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void findClass_should_throw_IllegalStateException_if_called_recursively() throws Exception {
+    public void findClass_should_throw_IllegalStateException_if_called_recursively()
+            throws Exception {
         given(source.getClassFile("foo.Bar")).willReturn(classFile);
         given(classFile.toClass(injectionTarget)).will(new Answer<Class<?>>() {
             @Override
@@ -54,18 +55,21 @@ public class InjectorClassLoaderTest {
     }
 
     @Test(expected = ClassNotFoundException.class)
-    public void findClass_should_throw_ClassNotFoundException_if_the_given_name_belongs_to_my_package() throws Exception {
+    public void findClass_should_throw_ClassNotFoundException_if_the_given_name_belongs_to_my_package()
+            throws Exception {
         testTarget.findClass(InjectorClassLoaderTest.class.getName());
     }
 
     @Test(expected = ClassNotFoundException.class)
-    public void findClass_should_throw_ClassNotFoundException_if_no_Class_with_the_given_name_can_be_found() throws Exception {
+    public void findClass_should_throw_ClassNotFoundException_if_no_Class_with_the_given_name_can_be_found()
+            throws Exception {
         testTarget.findClass("foo.Bar");
         then(source).should().getClassFile("foo.Bar");
     }
 
     @Test(expected = IOError.class)
-    public void findClass_should_throw_IOError_if_an_IO_error_occurs_while_getting_the_ClassFile() throws Exception {
+    public void findClass_should_throw_IOError_if_an_IO_error_occurs_while_getting_the_ClassFile()
+            throws Exception {
         given(source.getClassFile("foo.Bar")).willThrow(IOException.class);
         testTarget.findClass("foo.Bar");
     }

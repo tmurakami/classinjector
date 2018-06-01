@@ -35,12 +35,14 @@ public class ClassSourcesTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getClassFile_should_throw_IllegalArgumentException_if_the_className_is_empty() throws Exception {
+    public void getClassFile_should_throw_IllegalArgumentException_if_the_className_is_empty()
+            throws Exception {
         new ClassSources(Collections.singleton(source)).getClassFile("");
     }
 
     @Test
-    public void getClassFile_should_return_null_if_no_DexFile_with_the_given_name_can_be_found() throws Exception {
+    public void getClassFile_should_return_null_if_no_DexFile_with_the_given_name_can_be_found()
+            throws Exception {
         assertNull(new ClassSources(Collections.singleton(source)).getClassFile("foo.Bar"));
     }
 
