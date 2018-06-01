@@ -24,13 +24,12 @@ public class InjectorClassLoaderTest {
     @Mock
     private ClassFile classFile;
 
-    private ClassLoader injectionTarget = new ClassLoader() {
+    private ClassLoader injectionTarget = new ClassLoader(null) {
     };
 
     @Before
     public void setUp() {
-        testTarget = new InjectorClassLoader(new ClassLoader() {
-        }, source, injectionTarget);
+        testTarget = new InjectorClassLoader(null, source, injectionTarget);
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.github.tmurakami.classinjector;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import org.junit.Test;
+import test.MyTestClass;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -22,7 +23,7 @@ public class JvmClassFileTest {
     @SuppressWarnings("TryFinallyCanBeTryWithResources")
     @Test
     public void toClass_should_return_the_Class_with_the_given_name() throws Exception {
-        String name = C.class.getName();
+        String name = MyTestClass.class.getName();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         InputStream in = getClass().getResourceAsStream('/' + name.replace('.', '/') + ".class");
         try {
@@ -33,14 +34,11 @@ public class JvmClassFileTest {
         } finally {
             in.close();
         }
-        ClassLoader classLoader = new ClassLoader() {
+        ClassLoader classLoader = new ClassLoader(null) {
         };
         Class<?> c = new JvmClassFile(name, out.toByteArray()).toClass(classLoader);
-        assertEquals(C.class.getName(), c.getName());
+        assertEquals(MyTestClass.class.getName(), c.getName());
         assertSame(classLoader, c.getClassLoader());
-    }
-
-    private static class C {
     }
 
 }

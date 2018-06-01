@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertSame;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
@@ -17,46 +17,28 @@ public class ClassInjectorImplTest {
     private ClassInjectorImpl testTarget;
 
     @Mock
-    private ClassSource source;
-    @Mock
-    private ClassLoaderHelper classLoaderHelper;
-    @Mock
     private InjectorClassLoaderFactory injectorClassLoaderFactory;
     @Mock
-    private InjectorClassLoader stealthClassLoader;
+    private InjectorClassLoader injectorClassLoader;
 
     @Test
     public void into_should_replace_the_parent_with_the_InjectorClassLoader() {
-        ClassLoader parent = new ClassLoader() {
+        ClassLoader target = new ClassLoader(null) {
         };
-        ClassLoader target = new ClassLoader(parent) {
-        };
-        given(injectorClassLoaderFactory.newInjectorClassLoader(parent, source, target)).willReturn(stealthClassLoader);
+        given(injectorClassLoaderFactory.newInjectorClassLoader(null, target)).willReturn(injectorClassLoader);
         testTarget.into(target);
-        then(classLoaderHelper).should().setParent(target, stealthClassLoader);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void into_should_throw_IllegalArgumentException_if_the_parent_is_null() {
-        testTarget.into(new ClassLoader(null) {
-        });
+        assertSame(injectorClassLoader, target.getParent());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void into_should_throw_IllegalArgumentException_if_the_target_is_an_InjectorClassLoader() {
-        ClassLoader parent = new ClassLoader() {
-        };
-        ClassLoader target = mock(InjectorClassLoader.class);
-        given(target.getParent()).willReturn(parent);
-        testTarget.into(target);
+        testTarget.into(mock(InjectorClassLoader.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void into_should_throw_IllegalArgumentException_if_the_parent_is_an_InjectorClassLoader() {
-        ClassLoader parent = mock(InjectorClassLoader.class);
-        ClassLoader target = new ClassLoader(parent) {
-        };
-        testTarget.into(target);
+        testTarget.into(new ClassLoader(mock(InjectorClassLoader.class)) {
+        });
     }
 
 }

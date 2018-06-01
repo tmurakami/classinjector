@@ -15,7 +15,6 @@ final class InjectorClassLoader extends ClassLoader {
     private final ClassLoader injectionTarget;
     private final Set<String> findingClasses = new HashSet<>();
 
-    @SuppressWarnings("WeakerAccess")
     InjectorClassLoader(ClassLoader parent, ClassSource source, ClassLoader injectionTarget) {
         super(parent);
         this.source = source;
