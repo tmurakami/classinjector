@@ -20,6 +20,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        consumerProguardFile 'proguard-rules.pro'
     }
     DdmPreferences.setTimeOut 60000
     libraryVariants.all {
