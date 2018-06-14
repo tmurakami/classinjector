@@ -1,27 +1,19 @@
 plugins {
     id 'com.github.ben-manes.versions' version '0.18.0'
-    id 'pl.allegro.tech.build.axion-release' version '1.9.1'
 }
 
-scmVersion {
-    tag {
-        prefix = ''
-    }
-    hooks {
-        pre 'fileUpdate', [file       : 'README.md',
-                           pattern    : { v, p -> /:$v'/ },
-                           replacement: { v, p -> ":$v'" }]
-        pre 'commit', { v, p -> "Release version: $v [ci skip]" }
-    }
-}
+apply from: "$rootDir/gradle/version.gradle"
 
 allprojects {
     repositories {
         google()
         jcenter()
     }
-    version = scmVersion.version
+}
+
+subprojects {
     group = 'com.github.tmurakami.classinjector'
+    version = version_name
 }
 
 task clean(type: Delete) {
