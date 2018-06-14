@@ -1,0 +1,25 @@
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            url 'https://github.com/tmurakami/classinjector'
+            inceptionYear '2017'
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'https://raw.githubusercontent.com/tmurakami/classinjector/master/LICENSE'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'tmurakami'
+                    name 'Tsuyoshi Murakami'
+                }
+            }
+            scm {
+                url 'https://github.com/tmurakami/classinjector'
+                connection 'scm:git:git://github.com/tmurakami/classinjector.git'
+            }
+        }
+    }
+}

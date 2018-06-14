@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 apply from: "$rootDir/gradle/java.gradle"
+apply from: "$rootDir/gradle/install.gradle"
 
 dependencies {
     compileOnly deps.jsr305

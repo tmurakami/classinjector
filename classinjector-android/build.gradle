@@ -15,6 +15,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 apply from: "$rootDir/gradle/android.gradle"
+apply from: "$rootDir/gradle/install.gradle"
 
 android {
     defaultConfig {
