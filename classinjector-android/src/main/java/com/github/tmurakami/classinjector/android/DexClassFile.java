@@ -1,7 +1,7 @@
 package com.github.tmurakami.classinjector.android;
 
 import java.util.Enumeration;
-import android.support.annotation.NonNull;
+import javax.annotation.Nonnull;
 import com.github.tmurakami.classinjector.ClassFile;
 
 /**
@@ -19,7 +19,7 @@ public final class DexClassFile implements ClassFile {
      * @param className the class name
      * @param dexFile   the dex file including the data for the given class name
      */
-    public DexClassFile(@NonNull String className, @NonNull dalvik.system.DexFile dexFile) {
+    public DexClassFile(@Nonnull String className, @Nonnull dalvik.system.DexFile dexFile) {
         if (className.isEmpty()) {
             throw new IllegalArgumentException("'className' is empty");
         }
@@ -33,9 +33,9 @@ public final class DexClassFile implements ClassFile {
         throw new IllegalArgumentException("'dexFile' does not contain data making up class " + className);
     }
 
-    @NonNull
+    @Nonnull
     @Override
-    public Class toClass(@NonNull ClassLoader classLoader) {
+    public Class toClass(@Nonnull ClassLoader classLoader) {
         return dexFile.loadClass(className, classLoader);
     }
 

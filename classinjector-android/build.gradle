@@ -29,11 +29,11 @@ android {
 }
 
 dependencies {
-    api deps.classinjector
-    compileOnly deps.support_annotations
+    api project(':classinjector')
+    compileOnly deps.jsr305
     testImplementation deps.junit
-    testImplementation deps.mockito
-    androidTestImplementation deps.rules
+    testImplementation deps.mockito.inline
+    androidTestImplementation deps.android.test.rules
 }
 
 task sourcesJar(type: Jar) {

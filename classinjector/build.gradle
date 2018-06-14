@@ -7,7 +7,7 @@ dependencies {
     compileOnly deps.jsr305
     testImplementation deps.jsr305
     testImplementation deps.junit
-    testImplementation deps.mockito
+    testImplementation deps.mockito.inline
 }
 
 task sourcesJar(type: Jar) {

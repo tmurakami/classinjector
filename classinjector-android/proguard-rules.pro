@@ -1,3 +1,2 @@
--dontwarn android.support.annotation.*
 -dontwarn javax.annotation.*
 -dontwarn sun.misc.Unsafe
