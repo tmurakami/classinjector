@@ -63,12 +63,9 @@ And then, for Java (7 or later):
 
 ```groovy
 dependencies {
-    compile 'com.github.tmurakami.classinjector:classinjector:x.y.z'
-    compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
+    compile 'com.github.tmurakami.classinjector:classinjector:0.4.2'
 }
 ```
-
-[![Release](https://jitpack.io/v/tmurakami/classinjector.svg)](https://jitpack.io/#tmurakami/classinjector)
 
 Or for Android (2.3 or later):
 
@@ -80,7 +77,6 @@ android {
 }
 
 dependencies {
-    compile 'com.github.tmurakami.classinjector:classinjector-android:x.y.z'
-    provided 'com.android.support:support-annotations:x.y.z'
+    compile 'com.github.tmurakami.classinjector:classinjector-android:0.4.2'
 }
 ```
