@@ -63,7 +63,7 @@ And then, for Java (7 or later):
 
 ```groovy
 dependencies {
-    compile 'com.github.tmurakami.classinjector:classinjector:0.4.2'
+    compile 'com.github.tmurakami.classinjector:classinjector:1.0.0'
 }
 ```
 
@@ -77,7 +77,7 @@ android {
 }
 
 dependencies {
-    compile 'com.github.tmurakami.classinjector:classinjector-android:0.4.2'
+    compile 'com.github.tmurakami.classinjector:classinjector-android:1.0.0'
 }
 ```
 
