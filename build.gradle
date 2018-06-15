@@ -39,5 +39,5 @@ dependencyUpdates.resolutionStrategy {
 
 ext.deps = [jsr305 : 'com.google.code.findbugs:jsr305:3.0.2',
             junit  : 'junit:junit:4.12',
-            mockito: [inline: 'org.mockito:mockito-inline:2.18.3',],
+            mockito: [inline: 'org.mockito:mockito-inline:2.19.0',],
             android: [test: [rules: 'com.android.support.test:rules:1.0.2',],],]
