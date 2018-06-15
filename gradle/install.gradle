@@ -5,8 +5,8 @@ install {
             inceptionYear '2017'
             licenses {
                 license {
-                    name 'MIT License'
-                    url 'https://raw.githubusercontent.com/tmurakami/classinjector/master/LICENSE'
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     distribution 'repo'
                 }
             }
