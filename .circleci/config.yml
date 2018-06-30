@@ -1,0 +1,79 @@
+version: 2
+
+references:
+  workspace: &workspace
+    ~/workspace
+  cache_key: &cache_key
+    jars-{{ checksum "build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+jobs:
+  build:
+    working_directory: *workspace
+    docker:
+      - image: circleci/android:api-27-alpha
+    environment:
+      TERM: dumb
+      GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - run:
+          name: Assemble
+          command: |
+            ./gradlew -p classinjector assemble
+            ./gradlew -p classinjector-android assembleDebug assembleDebugAndroidTest
+      - run:
+          name: Run Lint and Tests
+          command: |
+            ./gradlew -p classinjector jacocoTestReport
+            ./gradlew -p classinjector-android lintDebug jacocoTestDebugUnitTestReport
+      - save_cache:
+          key: *cache_key
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+      - store_artifacts:
+          path: classinjector/build/reports
+      - store_artifacts:
+          path: classinjector-android/build/reports
+      - store_test_results:
+          path: classinjector/build/test-results
+      - store_test_results:
+          path: classinjector-android/build/test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - classinjector-android/build
+            - classinjector-android/firebase
+  test_instrumented:
+    working_directory: *workspace
+    docker:
+      - image: google/cloud-sdk:latest
+    environment:
+      TERM: dumb
+    steps:
+      - attach_workspace:
+          at: *workspace
+      - run:
+          name: Authenticate to GCP
+          command: classinjector-android/firebase/auth.sh
+      - run:
+          name: Run tests on Firebase Test Lab
+          command: classinjector-android/firebase/test.sh classinjector-android
+      - run:
+          name: Fetch test results
+          command: classinjector-android/firebase/fetch_results.sh test-lab-1yzta6tq290bw-jhfhs06zs0z3m
+      - store_artifacts:
+          path: classinjector-android/build/test-results/firebase
+      - store_test_results:
+          path: classinjector-android/build/test-results/firebase
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test_instrumented:
+          requires:
+            - build
