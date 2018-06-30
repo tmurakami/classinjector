@@ -22,7 +22,7 @@ jobs:
           name: Assemble
           command: |
             ./gradlew -p classinjector assemble
-            ./gradlew -p classinjector-android assembleDebug assembleDebugAndroidTest
+            ./gradlew -p classinjector-android assembleDebugAndroidTest
       - run:
           name: Run Lint and Tests
           command: |
