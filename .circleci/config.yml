@@ -44,8 +44,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - ftl
             - classinjector-android/build
-            - classinjector-android/firebase
   test_instrumented:
     working_directory: *workspace
     docker:
@@ -57,17 +57,17 @@ jobs:
           at: *workspace
       - run:
           name: Authenticate to GCP
-          command: classinjector-android/firebase/auth.sh
+          command: ftl/auth.sh classinjector-android
       - run:
           name: Run tests on Firebase Test Lab
-          command: classinjector-android/firebase/test.sh classinjector-android
+          command: ftl/test.sh classinjector-android/build/outputs/apk/androidTest/debug/classinjector-android-debug-androidTest.apk
       - run:
           name: Fetch test results
-          command: classinjector-android/firebase/fetch_results.sh test-lab-1yzta6tq290bw-jhfhs06zs0z3m
+          command: ftl/fetch_results.sh test-lab-1yzta6tq290bw-jhfhs06zs0z3m classinjector-android/build/test-results/ftl
       - store_artifacts:
-          path: classinjector-android/build/test-results/firebase
+          path: classinjector-android/build/test-results/ftl
       - store_test_results:
-          path: classinjector-android/build/test-results/firebase
+          path: classinjector-android/build/test-results/ftl
 
 workflows:
   version: 2
